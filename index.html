@@ -13,6 +13,7 @@
             background-color: #0f172a; /* Tailwind slate-900 */
             color: white;
             user-select: none;
+            overflow-x: hidden;
         }
 
         .glass-panel {
@@ -53,26 +54,26 @@
 
         /* 활성화된 선수 스타일 */
         .active-A {
-            background-color: #ef4444; /* red-500 */
+            background-color: #ef4444;
             color: white;
             box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
             border: 2px solid #fca5a5;
         }
         .active-B {
-            background-color: #3b82f6; /* blue-500 */
+            background-color: #3b82f6;
             color: white;
             box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
             border: 2px solid #93c5fd;
         }
 
-        /* 다중 뱃지 컨테이너 및 뱃지 스타일 */
+        /* 다중 뱃지 컨테이너 (쿼터 표시) */
         .badge-container {
             position: absolute;
             top: -6px;
             right: -6px;
             display: flex;
             gap: 2px;
-            pointer-events: none; /* 클릭 방해 안 함 */
+            pointer-events: none;
         }
         .quarter-badge {
             width: 16px;
@@ -88,15 +89,14 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
         
-        /* 쿼터별 뱃지 색상 */
-        .badge-q1 { background-color: #f97316; } /* 1쿼터: 주황 */
-        .badge-q2 { background-color: #84cc16; color: #000; } /* 2쿼터: 연두 (글씨 검정) */
-        .badge-q3 { background-color: #eab308; color: #000; } /* 3쿼터: 노랑 (글씨 검정) */
-        .badge-q4 { background-color: #ef4444; } /* 4쿼터: 빨강 */
+        .badge-q1 { background-color: #f97316; } 
+        .badge-q2 { background-color: #84cc16; color: #000; } 
+        .badge-q3 { background-color: #eab308; color: #000; } 
+        .badge-q4 { background-color: #ef4444; } 
 
         /* 센터패스 강조 */
         .center-pass-active {
-            background-color: #ffff00 !important; /* 쨍한 노란색 */
+            background-color: #ffff00 !important; 
             color: #000000 !important;
             font-weight: 900;
             box-shadow: 0 0 20px rgba(255, 255, 0, 0.8) !important;
@@ -104,120 +104,190 @@
             transform: scale(1.05);
         }
 
+        /* 패널티 시 테두리 깜빡임 애니메이션 */
+        @keyframes penalty-pulse {
+            0%, 100% { box-shadow: 0 0 0px rgba(220, 38, 38, 0); border-color: rgba(239, 68, 68, 1); }
+            50% { box-shadow: 0 0 30px rgba(220, 38, 38, 0.9); border-color: #f87171; background-color: rgba(127, 29, 29, 0.5); }
+        }
+        .penalty-active {
+            animation: penalty-pulse 1.5s 3; /* infinite에서 3으로 변경 (3번 깜빡이고 멈춤) */
+        }
+
         /* 스크롤바 숨김 */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+
+        /* 전체화면 스타일 지정 */
+        :fullscreen body {
+            justify-content: center;
+            padding-bottom: 0;
+        }
+        :fullscreen .roster-section {
+            display: none !important; /* 출전명단 숨김 */
+        }
+        :fullscreen .top-section {
+            flex-grow: 1;
+            justify-content: center;
+        }
+        :fullscreen .top-section > div:first-child {
+            margin-bottom: 3rem !important; /* 쿼터-시간 사이 공간 10% 더 확장 */
+        }
+        :fullscreen #quarter-display {
+            font-size: 7.2rem !important; /* 20% 확대 */
+        }
+        :fullscreen .top-section > div:first-child > button {
+            width: 5rem !important; 
+            height: 5rem !important;
+            font-size: 2rem !important;
+        }
+        :fullscreen #timer-display {
+            font-size: 16.8rem !important; /* 20% 확대 */
+        }
+        :fullscreen .score-section {
+            flex-grow: 2;
+            align-items: center;
+            margin-bottom: 0;
+        }
+        :fullscreen .score-box {
+            justify-content: center;
+        }
+        :fullscreen .controls-panel {
+            justify-content: center;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-2 md:p-6 pb-20 relative">
 
+    <!-- 좌측 상단 전체화면 버튼 -->
+    <button onclick="toggleFullScreen()" class="absolute top-4 left-4 z-10 bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1.5 rounded-lg border border-gray-600 font-bold text-sm shadow-md transition flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707m0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707m-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707"/>
+        </svg>
+        <span>전체화면</span>
+    </button>
+
     <!-- 제작자 크레딧 -->
     <div class="text-center text-gray-500 font-bold text-sm md:text-base tracking-widest w-full mb-2">
-        made.by 한태건 T
+        made by. 한태건 T
     </div>
 
-    <!-- 시간 설정 패널 (우측 상단, 마우스 오버시 표시) -->
+    <!-- 시간 설정 패널 -->
     <div class="settings-panel absolute top-4 right-4 z-10 bg-gray-800 p-3 rounded-xl shadow-lg border border-gray-600 flex items-center gap-2">
         <label class="text-xs text-gray-400 font-bold">시간설정</label>
-        <input type="number" id="time-input" value="15" min="1" max="60" class="w-16 bg-gray-900 text-white border border-gray-700 rounded px-2 py-1 text-center font-bold">
+        <input type="number" id="time-input" value="12" min="1" max="60" class="w-16 bg-gray-900 text-white border border-gray-700 rounded px-2 py-1 text-center font-bold">
         <span class="text-xs text-gray-400">분</span>
         <button onclick="setTime()" class="ml-1 bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded font-bold transition">적용</button>
     </div>
 
-    <!-- 1. 메인 상단 (거대한 쿼터 & 타이머) -->
-    <div class="w-full flex flex-col items-center mb-6 mt-4 md:mt-0">
-        <!-- 쿼터 표시 -->
-        <div class="flex items-center gap-6 mb-2">
-            <div id="quarter-display" class="text-4xl md:text-5xl font-black text-yellow-400 tracking-wider">
+    <!-- 1. 메인 상단 -->
+    <div class="top-section w-full flex flex-col items-center mb-6 mt-2 md:mt-0">
+        <div class="flex items-center gap-6 mb-[-10px] md:mb-[-20px] z-10">
+            <div id="quarter-display" class="text-6xl md:text-[6rem] font-black text-yellow-400 tracking-widest drop-shadow-[0_0_20px_rgba(253,224,71,0.5)]">
                 1 Quarter
             </div>
-            <button onclick="nextQuarter()" class="w-10 h-10 md:w-12 md:h-12 bg-gray-700 hover:bg-gray-600 rounded-full flex justify-center items-center text-xl font-bold transition shadow-lg border border-gray-500">
+            <button onclick="nextQuarter()" class="w-12 h-12 md:w-16 md:h-16 bg-gray-700 hover:bg-gray-600 rounded-full flex justify-center items-center text-3xl font-black transition shadow-lg border border-gray-400">
                 &gt;
             </button>
         </div>
-        <!-- 타이머 -->
-        <div id="timer-display" class="text-7xl md:text-[8rem] font-black tracking-tighter text-white drop-shadow-2xl font-mono leading-none">
-            15:00
+        <!-- 자간 늘림(tracking-[0.2em]) 및 숫자고정 -->
+        <div id="timer-display" class="text-[9rem] md:text-[14rem] font-black tracking-[0.2em] text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.9)] leading-none tabular-nums">
+            12:00
         </div>
     </div>
 
     <!-- 2. 점수판 및 컨트롤 패널 -->
-    <div class="w-full max-w-6xl flex flex-col md:flex-row justify-between items-stretch gap-4 md:gap-6 mb-8">
+    <div class="score-section w-full max-w-[95%] flex flex-col md:flex-row justify-between items-stretch gap-4 md:gap-8 mb-8">
         
         <!-- TEAM A 스코어박스 -->
-        <div class="glass-panel rounded-3xl p-4 md:p-6 flex-1 flex flex-col items-center relative overflow-hidden shadow-2xl border-t-4 border-red-500">
-            <div class="text-red-400 font-black text-2xl md:text-3xl mb-2 tracking-widest">TEAM A</div>
-            <div id="score-A" class="text-8xl md:text-9xl font-black mb-4 tracking-tighter">0</div>
+        <div id="score-box-A" class="score-box glass-panel rounded-3xl p-4 md:p-6 flex-1 flex flex-col items-center relative overflow-hidden shadow-2xl border-t-8 border-red-500 transition-all duration-300">
+            <!-- 패널티 뱃지 (숨김 상태) -->
+            <div id="penalty-badge-A" class="hidden absolute top-4 left-4 bg-red-600 text-white font-black px-3 py-1 rounded-lg border border-white shadow-lg text-sm md:text-base tracking-wider z-20">
+                🚨 PENALTY
+            </div>
+            
+            <div class="text-red-400 font-black text-4xl md:text-5xl mb-1 tracking-widest">TEAM A</div>
+            <div class="text-yellow-400 font-bold text-sm mb-2 bg-yellow-900/40 px-3 py-1 rounded-full border border-yellow-600/50 flex items-center gap-1">
+                <span>누적 경고:</span>
+                <span id="team-warnings-A" class="text-white text-base">0</span>
+            </div>
+
+            <div id="score-A" class="text-[9rem] md:text-[11rem] font-black mb-4 tracking-tighter leading-none">0</div>
             <div class="flex gap-4 w-full">
                 <button onclick="changeScore('A', -1)" class="flex-1 bg-red-900/50 hover:bg-red-800 text-red-200 py-3 rounded-2xl font-bold text-3xl transition">-</button>
                 <button onclick="changeScore('A', 1)" class="flex-[2] bg-red-600 hover:bg-red-500 text-white py-3 rounded-2xl font-black text-4xl shadow-lg transition">+</button>
             </div>
-            <button id="cp-A" onclick="setCenterPass('A')" class="w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-3 rounded-xl font-bold text-lg transition uppercase tracking-widest">
+            <button id="cp-A" onclick="setCenterPass('A')" class="w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest">
                 Center Pass
             </button>
         </div>
 
-        <!-- 중앙 컨트롤 패널 -->
-        <div class="flex flex-col gap-3 w-full md:w-72 shrink-0 justify-center">
-            <button id="btn-start" onclick="toggleTimer()" class="w-full bg-green-600 hover:bg-green-500 text-white py-5 rounded-2xl font-black text-3xl transition shadow-lg">
+        <!-- 중앙 컨트롤 패널 (수직 배치) -->
+        <div class="controls-panel flex flex-col gap-3 w-full md:w-40 shrink-0 justify-center">
+            <button id="btn-start" onclick="toggleTimer()" class="w-full bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg">
                 시작
             </button>
-            <div class="flex gap-2">
-                <button onclick="showConfirm('시간을 초기화하시겠습니까?', resetTimer)" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-3 rounded-xl font-bold text-lg transition">
-                    시간 초기화
-                </button>
-                <button onclick="showConfirm('양 팀 점수를 0점으로 초기화하시겠습니까?', resetScores)" class="flex-1 border border-red-800/50 bg-red-900/40 hover:bg-red-800/60 text-red-300 py-3 rounded-xl font-bold text-sm transition">
-                    점수 초기화
-                </button>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="showConfirm('모든 선수의 출전 기록을 초기화하시겠습니까?', resetPlayers)" class="flex-1 border border-gray-600 bg-gray-800 hover:bg-gray-700 text-gray-300 py-2 rounded-xl font-bold text-sm transition">
-                    선수 초기화
-                </button>
-                <button onclick="showCPHistory()" class="flex-1 border border-yellow-600/50 bg-gray-800 hover:bg-gray-700 text-yellow-500 py-2 rounded-xl font-bold text-sm transition">
-                    센터패스 내역
-                </button>
-            </div>
+            <button onclick="showConfirm('시간을 초기화하시겠습니까?', resetTimer)" class="w-full bg-gray-700 hover:bg-gray-600 text-white py-4 rounded-xl font-bold text-base transition">
+                시간 초기화
+            </button>
+            <button onclick="showConfirm('양 팀 점수를 0점으로 초기화하시겠습니까?', resetScores)" class="w-full border border-red-800/50 bg-red-900/40 hover:bg-red-800/60 text-red-300 py-4 rounded-xl font-bold text-base transition">
+                점수 초기화
+            </button>
+            <button onclick="showConfirm('모든 선수의 기록(출전/경고)을 초기화하시겠습니까?', resetPlayers)" class="w-full border border-gray-600 bg-gray-800 hover:bg-gray-700 text-gray-300 py-4 rounded-xl font-bold text-base transition">
+                선수 초기화
+            </button>
+            <button onclick="showCPHistory()" class="w-full border border-yellow-600/50 bg-gray-800 hover:bg-gray-700 text-yellow-500 py-4 rounded-xl font-bold text-base transition">
+                센터패스 내역
+            </button>
         </div>
 
         <!-- TEAM B 스코어박스 -->
-        <div class="glass-panel rounded-3xl p-4 md:p-6 flex-1 flex flex-col items-center relative overflow-hidden shadow-2xl border-t-4 border-blue-500">
-            <div class="text-blue-400 font-black text-2xl md:text-3xl mb-2 tracking-widest">TEAM B</div>
-            <div id="score-B" class="text-8xl md:text-9xl font-black mb-4 tracking-tighter">0</div>
+        <div id="score-box-B" class="score-box glass-panel rounded-3xl p-4 md:p-6 flex-1 flex flex-col items-center relative overflow-hidden shadow-2xl border-t-8 border-blue-500 transition-all duration-300">
+            <!-- 패널티 뱃지 (숨김 상태) -->
+            <div id="penalty-badge-B" class="hidden absolute top-4 left-4 bg-red-600 text-white font-black px-3 py-1 rounded-lg border border-white shadow-lg text-sm md:text-base tracking-wider z-20">
+                🚨 PENALTY
+            </div>
+
+            <div class="text-blue-400 font-black text-4xl md:text-5xl mb-1 tracking-widest">TEAM B</div>
+            <div class="text-yellow-400 font-bold text-sm mb-2 bg-yellow-900/40 px-3 py-1 rounded-full border border-yellow-600/50 flex items-center gap-1">
+                <span>누적 경고:</span>
+                <span id="team-warnings-B" class="text-white text-base">0</span>
+            </div>
+
+            <div id="score-B" class="text-[9rem] md:text-[11rem] font-black mb-4 tracking-tighter leading-none">0</div>
             <div class="flex gap-4 w-full">
                 <button onclick="changeScore('B', -1)" class="flex-1 bg-blue-900/50 hover:bg-blue-800 text-blue-200 py-3 rounded-2xl font-bold text-3xl transition">-</button>
                 <button onclick="changeScore('B', 1)" class="flex-[2] bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-2xl font-black text-4xl shadow-lg transition">+</button>
             </div>
-            <button id="cp-B" onclick="setCenterPass('B')" class="w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-3 rounded-xl font-bold text-lg transition uppercase tracking-widest">
+            <button id="cp-B" onclick="setCenterPass('B')" class="w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest">
                 Center Pass
             </button>
         </div>
     </div>
 
     <!-- 3. 선수 리스트 (하단) -->
-    <div class="w-full max-w-6xl flex flex-col md:flex-row gap-6">
+    <div class="roster-section w-full max-w-[95%] flex flex-col md:flex-row gap-6">
         <!-- TEAM A 로스터 -->
         <div class="flex-1 glass-panel rounded-2xl p-4">
             <div class="flex justify-between items-end border-b border-gray-600 pb-2 mb-4 px-2">
-                <div class="text-lg text-red-400 font-black">TEAM A 출전 명단</div>
+                <div class="text-xl text-red-400 font-black">TEAM A 출전 명단</div>
                 <div class="text-sm font-bold text-gray-200 bg-red-900/50 border border-red-500/30 px-3 py-1 rounded-lg">
-                    현재 출전: <span id="count-A" class="text-red-400 text-lg">0</span>명
+                    현재 출전: <span id="count-A" class="text-red-400 text-xl">0</span>명
                 </div>
             </div>
-            <!-- 그리드 렌더링 영역 -->
             <div id="roster-A" class="grid grid-cols-5 md:grid-cols-5 gap-y-5 gap-x-2 justify-items-center"></div>
         </div>
 
         <!-- TEAM B 로스터 -->
         <div class="flex-1 glass-panel rounded-2xl p-4">
             <div class="flex justify-between items-end border-b border-gray-600 pb-2 mb-4 px-2">
-                <div class="text-lg text-blue-400 font-black">TEAM B 출전 명단</div>
+                <div class="text-xl text-blue-400 font-black">TEAM B 출전 명단</div>
                 <div class="text-sm font-bold text-gray-200 bg-blue-900/50 border border-blue-500/30 px-3 py-1 rounded-lg">
-                    현재 출전: <span id="count-B" class="text-blue-400 text-lg">0</span>명
+                    현재 출전: <span id="count-B" class="text-blue-400 text-xl">0</span>명
                 </div>
             </div>
-            <!-- 그리드 렌더링 영역 -->
             <div id="roster-B" class="grid grid-cols-5 md:grid-cols-5 gap-y-5 gap-x-2 justify-items-center"></div>
         </div>
     </div>
@@ -254,29 +324,34 @@
     <script>
         // --- 상태 변수 ---
         let timerInterval;
-        let timeRemaining = 15 * 60; // 15분
+        let timeRemaining = 12 * 60; // 12분
         let isRunning = false;
         
         let scores = { A: 0, B: 0 };
         let currentQuarter = 1;
-        let centerPassTeam = 'A'; // 초기 센터패스 팀
-
-        // 선수별 출전 쿼터 기록 배열 저장. 예: { A: { 1: [1, 3], 2: [] ... } }
-        let players = { A: {}, B: {} };
+        let centerPassTeam = 'A';
         
-        let cpHistory = []; // 센터패스 내역
-        let confirmCallback = null; // 모달 콜백 저장
+        let cpHistory = []; 
+        let confirmCallback = null; 
+
+        // 선수 기록 (출전 쿼터 배열, 개인 경고 수)
+        let players = { A: {}, B: {} };
+        let warnings = { A: {}, B: {} };
+        let teamWarnings = { A: 0, B: 0 }; // 누적 경고 카운트
 
         // 데이터 초기화
         function initPlayersData() {
             for (let i = 1; i <= 15; i++) {
                 players.A[i] = [];
                 players.B[i] = [];
+                warnings.A[i] = 0;
+                warnings.B[i] = 0;
             }
+            teamWarnings.A = 0;
+            teamWarnings.B = 0;
         }
         initPlayersData();
 
-        // 윈도우 로드 시 UI 그리기
         window.onload = function() {
             renderRoster('A');
             renderRoster('B');
@@ -284,18 +359,19 @@
             updatePlayerCount('A');
             updatePlayerCount('B');
             updateCenterPassDisplay();
+            updateWarningUI('A');
+            updateWarningUI('B');
         };
 
+        // 타이머 관련
         function updateTimerDisplay() {
             const minutes = Math.floor(timeRemaining / 60);
             const seconds = timeRemaining % 60;
             const display = document.getElementById('timer-display');
             display.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             
-            // 0초 처리
             if (timeRemaining <= 0) {
-                display.classList.add('text-red-500');
-                display.classList.add('animate-pulse');
+                display.classList.add('text-red-500', 'animate-pulse');
             } else {
                 display.classList.remove('text-red-500', 'animate-pulse');
             }
@@ -306,7 +382,7 @@
             if (isRunning) {
                 clearInterval(timerInterval);
                 btn.innerText = '계속';
-                btn.className = 'w-full bg-yellow-600 hover:bg-yellow-500 text-white py-5 rounded-2xl font-black text-3xl transition shadow-lg';
+                btn.className = 'w-full bg-yellow-600 hover:bg-yellow-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg';
             } else {
                 if (timeRemaining <= 0) return;
                 timerInterval = setInterval(() => {
@@ -319,7 +395,7 @@
                     }
                 }, 1000);
                 btn.innerText = '일시정지';
-                btn.className = 'w-full bg-red-600 hover:bg-red-500 text-white py-5 rounded-2xl font-black text-3xl transition shadow-lg';
+                btn.className = 'w-full bg-red-600 hover:bg-red-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg';
             }
             isRunning = !isRunning;
         }
@@ -327,24 +403,24 @@
         function resetTimer() {
             clearInterval(timerInterval);
             isRunning = false;
-            setTime(); // input 값 읽어서 리셋
+            setTime(); 
             const btn = document.getElementById('btn-start');
             btn.innerText = '시작';
-            btn.className = 'w-full bg-green-600 hover:bg-green-500 text-white py-5 rounded-2xl font-black text-3xl transition shadow-lg';
+            btn.className = 'w-full bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg';
         }
 
         function setTime() {
-            const min = parseInt(document.getElementById('time-input').value) || 15;
+            const min = parseInt(document.getElementById('time-input').value) || 12;
             timeRemaining = min * 60;
             updateTimerDisplay();
         }
 
+        // 점수 및 센터패스
         function changeScore(team, amount) {
             scores[team] += amount;
             if (scores[team] < 0) scores[team] = 0;
             document.getElementById(`score-${team}`).innerText = scores[team];
 
-            // 득점 발생 시 누가 골을 넣었든 센터패스는 교대됨 (넷볼 룰)
             if (amount > 0) {
                 toggleCenterPass();
             }
@@ -357,14 +433,12 @@
             document.getElementById('score-B').innerText = '0';
         }
 
-        // 수동 변경
         function setCenterPass(team) {
             centerPassTeam = team;
             updateCenterPassDisplay();
             recordCPHistory(team);
         }
 
-        // 자동 교대 (득점 시)
         function toggleCenterPass() {
             centerPassTeam = (centerPassTeam === 'A') ? 'B' : 'A';
             updateCenterPassDisplay();
@@ -375,8 +449,8 @@
             const btnA = document.getElementById('cp-A');
             const btnB = document.getElementById('cp-B');
             
-            btnA.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-3 rounded-xl font-bold text-lg transition uppercase tracking-widest';
-            btnB.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-3 rounded-xl font-bold text-lg transition uppercase tracking-widest';
+            btnA.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest';
+            btnB.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest';
             
             if (centerPassTeam === 'A') {
                 btnA.classList.add('center-pass-active');
@@ -385,15 +459,12 @@
             }
         }
 
+        // 쿼터
         function nextQuarter() {
             currentQuarter++;
-            // 4쿼터 초과 시 1쿼터로 순환
-            if (currentQuarter > 4) {
-                currentQuarter = 1; 
-            }
+            if (currentQuarter > 4) currentQuarter = 1; 
             document.getElementById('quarter-display').innerText = `${currentQuarter} Quarter`;
             
-            // 쿼터 변경 시 UI 갱신 (선수들 불빛 상태 재계산)
             for(let i=1; i<=15; i++) {
                 updatePlayerUI('A', i);
                 updatePlayerUI('B', i);
@@ -402,6 +473,7 @@
             updatePlayerCount('B');
         }
 
+        // 선수 리스트 렌더링
         function renderRoster(team) {
             const container = document.getElementById(`roster-${team}`);
             container.innerHTML = '';
@@ -409,19 +481,67 @@
                 const wrapper = document.createElement('div');
                 wrapper.className = 'relative';
 
+                // 선수 기본 버튼 (클릭 시 쿼터 토글)
                 const btn = document.createElement('button');
                 btn.id = `btn-${team}-${i}`;
                 btn.className = 'player-toggle';
                 btn.innerText = i;
                 btn.onclick = () => togglePlayer(team, i);
 
+                // 쿼터 뱃지 컨테이너
                 const badgeContainer = document.createElement('div');
                 badgeContainer.id = `badges-${team}-${i}`;
                 badgeContainer.className = 'badge-container';
 
+                // 🌟 경고 부여 버튼 (우측 하단 작은 노란버튼)
+                const warningBtn = document.createElement('button');
+                warningBtn.id = `warning-${team}-${i}`;
+                warningBtn.className = 'absolute -bottom-1 -right-1 bg-yellow-400 text-black text-[0.65rem] font-black px-1 rounded border border-gray-800 shadow-md z-20 hover:bg-yellow-300 transition-transform active:scale-90';
+                warningBtn.innerHTML = warnings[team][i] > 0 ? `🟨${warnings[team][i]}` : '🟨';
+                warningBtn.onclick = (e) => {
+                    e.stopPropagation(); // 부모 버튼 클릭 방지
+                    addWarning(team, i);
+                };
+
                 wrapper.appendChild(btn);
                 wrapper.appendChild(badgeContainer);
+                wrapper.appendChild(warningBtn);
                 container.appendChild(wrapper);
+                
+                // 렌더링 직후 불빛 상태 적용
+                updatePlayerUI(team, i);
+            }
+        }
+
+        // 옐로우카드 추가
+        function addWarning(team, id) {
+            warnings[team][id]++;
+            teamWarnings[team]++;
+            
+            // 버튼 텍스트 업데이트
+            document.getElementById(`warning-${team}-${id}`).innerHTML = `🟨${warnings[team][id]}`;
+            // 팀 전체 경고 UI 업데이트
+            updateWarningUI(team);
+        }
+
+        // 팀 패널티 UI 업데이트
+        function updateWarningUI(team) {
+            document.getElementById(`team-warnings-${team}`).innerText = teamWarnings[team];
+            
+            const scoreBox = document.getElementById(`score-box-${team}`);
+            const penaltyBadge = document.getElementById(`penalty-badge-${team}`);
+            
+            // 5개 이상 누적 시 패널티 발동
+            if (teamWarnings[team] >= 5) {
+                // 애니메이션이 다시 3번 깜빡이도록 클래스 초기화(리플로우) 후 재추가
+                scoreBox.classList.remove('penalty-active');
+                void scoreBox.offsetWidth; 
+                scoreBox.classList.add('penalty-active');
+                
+                penaltyBadge.classList.remove('hidden');
+            } else {
+                scoreBox.classList.remove('penalty-active');
+                penaltyBadge.classList.add('hidden');
             }
         }
 
@@ -429,7 +549,6 @@
             const record = players[team][id];
             const index = record.indexOf(currentQuarter);
             
-            // 현재 쿼터가 기록에 없으면 추가, 있으면 제거(토글)
             if (index === -1) {
                 record.push(currentQuarter);
                 record.sort(); 
@@ -446,13 +565,11 @@
             const badgeContainer = document.getElementById(`badges-${team}-${id}`);
             const record = players[team][id];
             
-            // 현재 쿼터에 뛰고 있는지 판별하여 불빛 켜기
             btn.classList.remove('active-A', 'active-B');
             if (record.includes(currentQuarter)) {
                 btn.classList.add(`active-${team}`);
             }
 
-            // 동그라미 뱃지 초기화 후 재생성
             badgeContainer.innerHTML = '';
             record.forEach(q => {
                 const badge = document.createElement('div');
@@ -474,15 +591,16 @@
 
         function resetPlayers() {
             initPlayersData();
-            for(let i=1; i<=15; i++) {
-                updatePlayerUI('A', i);
-                updatePlayerUI('B', i);
-            }
+            // 선수 명단을 아예 새로 그리기 (경고 버튼 리셋 포함)
+            renderRoster('A');
+            renderRoster('B');
             updatePlayerCount('A');
             updatePlayerCount('B');
+            updateWarningUI('A');
+            updateWarningUI('B');
         }
 
-        // --- 모달 로직 ---
+        // 모달 및 기타
         function showConfirm(msg, callback) {
             document.getElementById('confirm-msg').innerText = msg;
             confirmCallback = callback;
@@ -505,7 +623,7 @@
             const timeStr = `${currentQuarter}Q - ${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
             
             cpHistory.unshift({ time: timeStr, team: team });
-            if(cpHistory.length > 50) cpHistory.pop(); // 최대 50개 유지
+            if(cpHistory.length > 50) cpHistory.pop(); 
         }
 
         function showCPHistory() {
@@ -529,6 +647,15 @@
             document.getElementById('cphistory-modal').classList.add('hidden');
         }
 
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch((err) => {});
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
     </script>
 </body>
 </html>
