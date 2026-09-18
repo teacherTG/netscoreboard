@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Netball Scoreboard Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 부저 소리를 내기 위한 Tone.js 라이브러리 추가 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
         
@@ -92,7 +94,7 @@
             transform: scale(1.05);
         }
 
-        /* 패널티 깜빡임: 3번만 실행 후 멈춤 */
+        /* 패널티 깜빡임 */
         @keyframes penalty-pulse {
             0%, 100% { box-shadow: 0 0 0px rgba(220, 38, 38, 0); border-color: rgba(239, 68, 68, 1); }
             50% { box-shadow: 0 0 30px rgba(220, 38, 38, 0.9); border-color: #f87171; background-color: rgba(127, 29, 29, 0.5); }
@@ -121,7 +123,7 @@
 
         .fullscreen-hint { display: none; }
         
-        /* 전체화면 CSS */
+        /* 전체화면 CSS 최적화 */
         :fullscreen body {
             padding: 0 !important;
             margin: 0 !important;
@@ -151,20 +153,77 @@
             scroll-snap-align: center;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            padding: 2rem;
+            justify-content: space-between; 
+            padding: 2vh 2vw; 
             box-sizing: border-box;
         }
 
-        /* -------------------------------------------------------------
-           [수정됨] 전체화면 시 쿼터/작성자 위치를 약간 아래로 내림 
-           ------------------------------------------------------------- */
-        :fullscreen #view-scoreboard {
-            padding-top: 8vh !important; 
+        :fullscreen #view-scoreboard .top-section {
+            flex-grow: 0;
+            margin-top: 1vh;
+            margin-bottom: 2vh; 
         }
+        
+        :fullscreen #quarter-display { font-size: 8vh !important; }
         :fullscreen #maker-text {
-            margin-top: 4vh; 
-            margin-bottom: 4vh;
+            font-size: 2vh !important;
+            margin-top: 1vh !important;
+            margin-bottom: 2vh !important;
+        }
+        :fullscreen .top-section > div:first-child > button {
+            width: 7vh !important; 
+            height: 7vh !important;
+            font-size: 3.5vh !important;
+        }
+        
+        :fullscreen #timer-mins,
+        :fullscreen #timer-secs,
+        :fullscreen .timer-colon {
+            font-size: 18vh !important;
+            line-height: 1;
+        }
+        
+        :fullscreen .time-adjust-btns button { padding: 1vh !important; }
+        :fullscreen .time-adjust-btns svg { width: 5vh !important; height: 5vh !important; }
+
+        :fullscreen #view-scoreboard .score-section {
+            flex-grow: 1;
+            align-items: stretch;
+            margin-bottom: 0;
+            height: 48vh; 
+        }
+        
+        :fullscreen .score-box {
+            padding: 2vh 2vw !important; 
+            justify-content: space-between;
+        }
+        :fullscreen .team-name-input {
+            font-size: 5vh !important;
+            margin-bottom: 1vh !important;
+        }
+        :fullscreen [id^="score-A"], :fullscreen [id^="score-B"] {
+            font-size: 14vh !important; 
+            margin-bottom: 1.5vh !important;
+        }
+        
+        :fullscreen .score-box button {
+            padding-top: 1.5vh !important;
+            padding-bottom: 1.5vh !important;
+            font-size: 3vh !important;
+        }
+        
+        :fullscreen [id^="cp-A"], :fullscreen [id^="cp-B"] {
+            margin-top: 1.5vh !important;
+            padding-top: 1.5vh !important;
+            padding-bottom: 1.5vh !important;
+            font-size: 2.5vh !important;
+        }
+
+        :fullscreen .controls-panel { justify-content: center; }
+        :fullscreen .controls-panel button {
+            padding-top: 1.5vh !important;
+            padding-bottom: 1.5vh !important;
+            font-size: 2vh !important;
         }
 
         @keyframes pulse-right { 
@@ -174,7 +233,7 @@
         :fullscreen .fullscreen-hint {
             display: flex;
             position: absolute;
-            right: 20px;
+            right: 2vw;
             top: 50%;
             margin-top: -24px;
             opacity: 0.7;
@@ -184,42 +243,6 @@
             padding: 10px;
             border-radius: 50%;
             pointer-events: none;
-        }
-
-        :fullscreen #view-scoreboard .top-section {
-            flex-grow: 1;
-            justify-content: center;
-            margin-top: 3vh; /* 간격 확장 */
-        }
-        :fullscreen #view-scoreboard .top-section > div:first-child {
-            margin-bottom: 4rem !important; /* 쿼터와 시간 사이 간격 증가 */
-        }
-        :fullscreen #view-scoreboard #quarter-display {
-            font-size: 7.2rem !important; 
-        }
-        :fullscreen #view-scoreboard .top-section > div:first-child > button {
-            width: 5rem !important; 
-            height: 5rem !important;
-            font-size: 2rem !important;
-        }
-        
-        /* 전체화면 타이머 크기 확장 */
-        :fullscreen #view-scoreboard #timer-mins,
-        :fullscreen #view-scoreboard #timer-secs,
-        :fullscreen #view-scoreboard .timer-colon {
-            font-size: 16.8rem !important; 
-        }
-
-        :fullscreen #view-scoreboard .score-section {
-            flex-grow: 2;
-            align-items: center;
-            margin-bottom: 0;
-        }
-        :fullscreen #view-scoreboard .score-box {
-            justify-content: center;
-        }
-        :fullscreen #view-scoreboard .controls-panel {
-            justify-content: center;
         }
     </style>
 </head>
@@ -239,10 +262,6 @@
         <!-- ================= PAGE 1 : 점수판 뷰 ================= -->
         <div id="view-scoreboard" class="slide-view flex flex-col items-center relative w-full">
             
-            <div id="maker-text" class="text-center text-gray-500 font-bold text-sm md:text-base tracking-widest w-full mb-2">
-                made by. 한태건 T
-            </div>
-
             <!-- 시간 설정 패널 -->
             <div class="settings-panel absolute top-0 right-0 md:right-4 z-10 bg-gray-800 p-3 rounded-xl shadow-lg border border-gray-600 flex items-center gap-2">
                 <label class="text-xs text-gray-400 font-bold">시간설정</label>
@@ -260,8 +279,11 @@
 
             <!-- 1. 쿼터 & 타이머 (세련된 좌우 상하버튼 적용) -->
             <div class="top-section w-full flex flex-col items-center mb-6 mt-2 md:mt-0 relative">
-                <!-- 쿼터 -->
-                <div class="flex items-center gap-6 mb-[-10px] md:mb-[-20px] z-10">
+                <!-- 쿼터 (이전/다음 버튼 양쪽) -->
+                <div class="flex items-center gap-4 md:gap-6 z-10">
+                    <button onclick="prevQuarter()" class="w-12 h-12 md:w-16 md:h-16 bg-gray-700 hover:bg-gray-600 rounded-full flex justify-center items-center text-3xl font-black transition shadow-lg border border-gray-400">
+                        &lt;
+                    </button>
                     <div id="quarter-display" class="text-6xl md:text-[6rem] font-black text-yellow-400 tracking-widest drop-shadow-[0_0_20px_rgba(253,224,71,0.5)]">
                         1 Quarter
                     </div>
@@ -269,9 +291,14 @@
                         &gt;
                     </button>
                 </div>
+
+                <!-- 제작자 텍스트 (쿼터와 시간 사이) -->
+                <div id="maker-text" class="text-center text-gray-500/80 font-bold text-sm md:text-base tracking-widest w-full mt-2 md:mt-4 mb-2 md:mb-4">
+                    made by. 한태건 T
+                </div>
                 
                 <!-- 타이머 영역 및 미세조절 버튼 -->
-                <div id="timer-wrapper" class="relative flex justify-center items-center font-black tracking-[0.2em] text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.9)] leading-none tabular-nums mt-6 md:mt-8 z-10">
+                <div id="timer-wrapper" class="relative flex justify-center items-center font-black tracking-[0.2em] text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.9)] leading-none tabular-nums z-10">
                     
                     <!-- 분 단위 조절 버튼 (좌측) -->
                     <div class="time-adjust-btns absolute -left-14 md:-left-20 top-1/2 -translate-y-1/2 flex flex-col gap-2 transition-opacity duration-300">
@@ -331,7 +358,7 @@
                         <button id="btn-minus-A" onclick="changeScore('A', -1)" class="flex-1 bg-red-900/50 hover:bg-red-800 text-red-200 py-3 rounded-2xl font-bold text-3xl transition">-</button>
                         <button id="btn-plus-A" onclick="changeScore('A', 1)" class="flex-[2] bg-red-600 hover:bg-red-500 text-white py-3 rounded-2xl font-black text-4xl shadow-lg transition">+</button>
                     </div>
-                    <button id="cp-A" onclick="setCenterPass('A')" class="w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest">
+                    <button id="cp-A" onclick="setCenterPass('A')" class="w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest flex items-center justify-center">
                         Center Pass
                     </button>
                 </div>
@@ -380,7 +407,7 @@
                         <button id="btn-minus-B" onclick="changeScore('B', -1)" class="flex-1 bg-blue-900/50 hover:bg-blue-800 text-blue-200 py-3 rounded-2xl font-bold text-3xl transition">-</button>
                         <button id="btn-plus-B" onclick="changeScore('B', 1)" class="flex-[2] bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-2xl font-black text-4xl shadow-lg transition">+</button>
                     </div>
-                    <button id="cp-B" onclick="setCenterPass('B')" class="w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest">
+                    <button id="cp-B" onclick="setCenterPass('B')" class="w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest flex items-center justify-center">
                         Center Pass
                     </button>
                 </div>
@@ -583,9 +610,6 @@
             document.getElementById(`roster-title-${team}`).innerText = `${teamNames[team]} 출전 명단`;
         }
 
-        /* -------------------------------------------------------------
-           [수정됨] 타이머를 분/초로 나누어 출력 및 디자인 동기화
-           ------------------------------------------------------------- */
         function updateTimerDisplay() {
             const minutes = Math.floor(timeRemaining / 60);
             const seconds = timeRemaining % 60;
@@ -608,33 +632,99 @@
             updateTimerDisplay();
         }
 
+        // [부저 재생 함수]
+        function playBuzzer() {
+            if (typeof Tone !== 'undefined') {
+                if (Tone.context.state !== 'running') {
+                    Tone.start();
+                }
+                const synth = new Tone.Synth({
+                    oscillator: { type: "square" }, // 스포츠 부저와 유사한 사각파
+                    envelope: { attack: 0.01, decay: 0.1, sustain: 1, release: 0.5 }
+                }).toDestination();
+                synth.volume.value = -8; 
+                synth.triggerAttackRelease("G2", 3); // 3초간 재생
+            }
+        }
+
         function toggleTimer() {
             const btn = document.getElementById('btn-start');
-            const adjustBtns = document.querySelectorAll('.time-adjust-btns'); // 조절 버튼들
+            const adjustBtns = document.querySelectorAll('.time-adjust-btns'); 
 
             if (isRunning) {
                 // 일시정지 상태
                 clearInterval(timerInterval);
                 btn.innerText = '계속';
                 btn.className = 'w-full bg-yellow-600 hover:bg-yellow-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg';
-                
-                // 시간 조절 화살표 다시 나타나기
                 adjustBtns.forEach(el => el.classList.remove('opacity-0', 'pointer-events-none'));
             } else {
                 // 시작 상태
                 if (timeRemaining <= 0) return;
-                
-                // 시간 조절 화살표 부드럽게 숨기기
+
+                // 브라우저 오디오 권한 잠금 해제
+                if (typeof Tone !== 'undefined' && Tone.context.state !== 'running') {
+                    Tone.start();
+                }
+
+                // 시작 버튼을 누르면 "n Quarter 시작~!" 알림 문구가 무조건 지워지고 초기화됨
+                updateCenterPassDisplay();
+
                 adjustBtns.forEach(el => el.classList.add('opacity-0', 'pointer-events-none'));
                 
                 timerInterval = setInterval(() => {
                     timeRemaining--;
                     updateTimerDisplay();
+                    
+                    // 시간이 00:00 에 도달했을 때의 자동화 액션들
                     if (timeRemaining <= 0) {
                         clearInterval(timerInterval);
                         isRunning = false;
-                        document.getElementById('btn-start').innerText = '종료';
+                        btn.innerText = '종료';
                         adjustBtns.forEach(el => el.classList.remove('opacity-0', 'pointer-events-none'));
+                        
+                        // 1. 3초간 종료 부저 울리기
+                        playBuzzer();
+
+                        // 2. 1초 딜레이 후 쿼터 변경, 센터패스 교대, 시간 초기화
+                        setTimeout(() => {
+                            if(timeRemaining <= 0 && !isRunning) {
+                                // 쿼터 1증가 및 UI 업데이트
+                                currentQuarter++;
+                                if (currentQuarter > 4) currentQuarter = 1;
+                                document.getElementById('quarter-display').innerText = `${currentQuarter} Quarter`;
+                                
+                                for(let i=1; i<=15; i++) {
+                                    updatePlayerUI('A', i);
+                                    updatePlayerUI('B', i);
+                                }
+                                updatePlayerCount('A');
+                                updatePlayerCount('B');
+
+                                // 센터패스 자동 교체
+                                centerPassTeam = (centerPassTeam === 'A') ? 'B' : 'A';
+                                
+                                // 기본 센터패스 버튼 글씨 초기화
+                                const btnA = document.getElementById('cp-A');
+                                const btnB = document.getElementById('cp-B');
+                                btnA.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest flex items-center justify-center';
+                                btnB.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest flex items-center justify-center';
+                                btnA.innerHTML = 'Center Pass';
+                                btnB.innerHTML = 'Center Pass';
+
+                                // 현재 공격 팀 버튼 활성화 및 "X Quarter 시작~!" 배지 추가
+                                const activeBtn = (centerPassTeam === 'A') ? btnA : btnB;
+                                activeBtn.classList.add('center-pass-active');
+                                activeBtn.innerHTML = `CENTER PASS <span class="text-base font-black bg-red-600 text-white px-3 py-1 rounded-lg ml-2 animate-pulse shadow-lg">${currentQuarter} Quarter 시작~!</span>`;
+                                
+                                // 내역 기록
+                                recordCPHistory(centerPassTeam);
+
+                                // 시간 초기화 및 시작 버튼 복구
+                                setTime();
+                                btn.innerText = '시작';
+                                btn.className = 'w-full bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg';
+                            }
+                        }, 1000); 
                     }
                 }, 1000);
                 
@@ -652,7 +742,6 @@
             btn.innerText = '시작';
             btn.className = 'w-full bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg';
             
-            // 타이머 화살표 다시 표시
             document.querySelectorAll('.time-adjust-btns').forEach(el => el.classList.remove('opacity-0', 'pointer-events-none'));
         }
 
@@ -691,13 +780,17 @@
             recordCPHistory(centerPassTeam);
         }
 
+        // 항상 센터패스 버튼 글자를 기본으로 리셋 후 액티브 상태를 주는 렌더링 함수
         function updateCenterPassDisplay() {
             const btnA = document.getElementById('cp-A');
             const btnB = document.getElementById('cp-B');
             
-            btnA.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest';
-            btnB.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest';
+            btnA.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest flex items-center justify-center';
+            btnB.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest flex items-center justify-center';
             
+            btnA.innerHTML = 'Center Pass';
+            btnB.innerHTML = 'Center Pass';
+
             if (centerPassTeam === 'A') {
                 btnA.classList.add('center-pass-active');
             } else {
@@ -705,9 +798,21 @@
             }
         }
 
+        // [다음 쿼터 버튼] 수동 조작 시 시간 리셋 포함
         function nextQuarter() {
             currentQuarter++;
             if (currentQuarter > 4) currentQuarter = 1; 
+            updateQuarterUI();
+        }
+
+        // [이전 쿼터 버튼] 수동 조작 시 시간 리셋 포함
+        function prevQuarter() {
+            currentQuarter--;
+            if (currentQuarter < 1) currentQuarter = 4;
+            updateQuarterUI();
+        }
+
+        function updateQuarterUI() {
             document.getElementById('quarter-display').innerText = `${currentQuarter} Quarter`;
             
             for(let i=1; i<=15; i++) {
@@ -716,6 +821,9 @@
             }
             updatePlayerCount('A');
             updatePlayerCount('B');
+
+            resetTimer(); 
+            updateCenterPassDisplay(); // 쿼터를 수동으로 바꾸면 "시작~!" 글씨도 사라짐
         }
 
         function renderRoster(team) {
