@@ -256,14 +256,13 @@
             <span>전체화면</span>
         </button>
 
-       <!-- 상단 좌측: 전체화면 & 리그 대진표 버튼 -->
-    <div style="position: absolute; top: 20px; left: 20px; z-index: 1000; display: flex; gap: 10px;">
-      <button id="fullscreen-btn" class="btn" onclick="toggleFullScreen()" style="background-color: transparent; border: 1px solid rgba(255,255,255,0.5); color: white; padding: 5px 10px; font-size: 0.9rem; cursor: pointer; border-radius: 5px;">
-        <i class="fas fa-expand"></i> 전체화면
-      </button>
-      <a href="https://script.google.com/a/macros/icedu.kr/s/AKfycbz7SowWvhuSIr3IQLF-rrFHeJTNDHLcqyobKuc9SoYFGif7MI48ST2P4sfacYnlGOl7/exec" target="_blank" class="btn" style="background-color: #495057; border: 1px solid rgba(255,255,255,0.5); color: white; padding: 5px 10px; font-size: 0.9rem; cursor: pointer; border-radius: 5px; text-decoration: none; display: flex; align-items: center; justify-content: center;">
-        <i class="fas fa-table" style="margin-right: 5px;"></i> 리그 대진표
-      </a>
+        <!-- 리그 대진표 새 탭 버튼 -->
+        <a href="https://script.google.com/a/macros/icedu.kr/s/AKfycbz7SowWvhuSIr3IQLF-rrFHeJTNDHLcqyobKuc9SoYFGif7MI48ST2P4sfacYnlGOl7/exec" target="_blank" class="bg-blue-800 hover:bg-blue-700 text-gray-200 px-3 py-1.5 rounded-lg border border-blue-600 font-bold text-sm shadow-md transition flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 2h-4v3h4zm0 4h-4v3h4zm0 4h-4v3h3a1 1 0 0 0 1-1zm-5 3v-3H6v3zm-5 0v-3H1v2a1 1 0 0 0 1 1zm-4-4h4V8H1zm0-4h4V4H1zm5-3v3h4V4zm4 4H6v3h4z"/>
+            </svg>
+            <span>리그 대진표</span>
+        </a>
     </div>
 
     <!-- 스와이프 가능한 슬라이더 컨테이너 -->
