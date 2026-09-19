@@ -147,8 +147,83 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between; 
-            padding: 2vh 2vw; 
+            /* 여백을 살짝 줄여서 위로 끌어올림 */
+            padding: 1.5vh 2vw 3vh 2vw; 
             box-sizing: border-box;
+        }
+
+        :fullscreen #view-scoreboard .top-section {
+            flex-grow: 0;
+            margin-top: 1vh;
+            /* 여백 축소 */
+            margin-bottom: 1vh; 
+        }
+        
+        :fullscreen #quarter-display { font-size: 7.5vh !important; } /* 폰트 약간 축소 */
+        :fullscreen #maker-text {
+            font-size: 2vh !important;
+            margin-top: 0.5vh !important;
+            margin-bottom: 1.5vh !important;
+        }
+        :fullscreen .top-section > div:first-child > button {
+            width: 6.5vh !important; 
+            height: 6.5vh !important;
+            font-size: 3vh !important;
+        }
+        
+        :fullscreen #timer-mins,
+        :fullscreen #timer-secs,
+        :fullscreen .timer-colon {
+            /* 폰트 약간 축소 */
+            font-size: 14vh !important;
+            line-height: 1;
+        }
+        
+        :fullscreen .time-adjust-btns button { padding: 1vh !important; }
+        :fullscreen .time-adjust-btns svg { width: 3.5vh !important; height: 3.5vh !important; }
+
+        :fullscreen #view-scoreboard .score-section {
+            flex-grow: 1;
+            align-items: stretch;
+            margin-bottom: 0;
+            /* 점수판 높이 유연하게 조절 */
+            height: auto; 
+            min-height: 40vh;
+        }
+        
+        :fullscreen .score-box {
+            padding: 1vh 2vw 1.5vh 2vw !important; 
+            justify-content: space-between;
+        }
+        :fullscreen .team-name-input {
+            font-size: 3.5vh !important;
+            margin-bottom: 0.5vh !important;
+        }
+        :fullscreen [id^="score-A"], :fullscreen [id^="score-B"] {
+            font-size: 10vh !important; /* 폰트 약간 축소 */
+            margin-bottom: 0.5vh !important;
+        }
+        
+        :fullscreen .score-box button {
+            padding-top: 1vh !important;
+            padding-bottom: 1vh !important;
+            font-size: 2.2vh !important;
+        }
+        
+        :fullscreen [id^="cp-A"], :fullscreen [id^="cp-B"] {
+            margin-top: 0.5vh !important;
+            /* 패딩을 줄여서 잘림 현상 방지 */
+            padding-top: 1.2vh !important;
+            padding-bottom: 1.2vh !important;
+            font-size: 2vh !important;
+        }
+
+        :fullscreen .controls-panel { justify-content: center; }
+        :fullscreen .controls-panel button {
+            /* 컨트롤 패널 버튼 패딩 축소 */
+            padding-top: 1vh !important;
+            padding-bottom: 1vh !important;
+            font-size: 1.8vh !important;
         }
 
         :fullscreen #view-scoreboard .top-section {
@@ -1011,7 +1086,7 @@
         function setSubmitGroup(group) {
             document.getElementById('submit-group').value = group;
             document.getElementById('btn-group-A').className = group === 'A' ? 'flex-1 bg-blue-600 text-white rounded-xl p-3 font-black border-2 border-blue-400 shadow-lg transition' : 'flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition';
-            document.getElementById('btn-group-B').className = group === 'B' ? 'flex-1 bg-blue-600 text-white rounded-xl p-3 font-black border-2 border-blue-400 shadow-lg transition' : 'flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition';
+            document.getElementById('btn-group-B').className = group === 'B' ? 'flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition' : 'flex-1 bg-blue-600 text-white rounded-xl p-3 font-black border-2 border-blue-400 shadow-lg transition';
         }
 
         function submitMatchResult() {
@@ -1025,7 +1100,7 @@
             }
 
             // ★ 결과 전송용 앱스 스크립트 웹앱 주소 ★
-            const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzzOfjEHorOP-vLGzF5zlfxgohLLBNk4esYASqOWIfcGj-shMfjJERGDkZJTHQJDnAw/exec★';
+            const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzzOfjEHorOP-vLGzF5zlfxgohLLBNk4esYASqOWIfcGj-shMfjJERGDkZJTHQJDnAw/exec';
 
             const payload = {
                 action: 'saveScore',
