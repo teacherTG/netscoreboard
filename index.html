@@ -6,6 +6,7 @@
     <title>Netball Scoreboard Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
         
@@ -118,8 +119,6 @@
             border-bottom: 2px solid rgba(255,255,255,0.3);
         }
 
-        .fullscreen-hint { display: none; }
-        
         /* 전체화면 CSS (비율 최적화) */
         :fullscreen body {
             padding: 0 !important;
@@ -226,17 +225,11 @@
 
     <!-- 상단 좌측: 전체화면 & 리그 대진표 버튼 -->
     <div style="position: absolute; top: 20px; left: 20px; z-index: 1000; display: flex; gap: 10px;">
-      <button id="fullscreen-btn" onclick="toggleFullScreen()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1.5 rounded-lg border border-gray-600 font-bold text-sm shadow-md transition flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707m0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707m-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707"/>
-        </svg>
-        <span>전체화면</span>
+      <button id="fullscreen-btn" class="btn" onclick="toggleFullScreen()" style="background-color: transparent; border: 1px solid rgba(255,255,255,0.5); color: white; padding: 5px 10px; font-size: 0.9rem; cursor: pointer; border-radius: 5px;">
+        <i class="fas fa-expand"></i> 전체화면
       </button>
-      <a href="https://script.google.com/a/macros/icedu.kr/s/AKfycbz7SowWvhuSIr3IQLF-rrFHeJTNDHLcqyobKuc9SoYFGif7MI48ST2P4sfacYnlGOl7/exec" target="_blank" class="bg-blue-800 hover:bg-blue-700 text-gray-200 px-3 py-1.5 rounded-lg border border-blue-600 font-bold text-sm shadow-md transition flex items-center gap-2" style="text-decoration: none;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 2h-4v3h4zm0 4h-4v3h4zm0 4h-4v3h3a1 1 0 0 0 1-1zm-5 3v-3H6v3zm-5 0v-3H1v2a1 1 0 0 0 1 1zm-4-4h4V8H1zm0-4h4V4H1zm5-3v3h4V4zm4 4H6v3h4z"/>
-        </svg>
-        <span>리그 대진표</span>
+      <a href="https://script.google.com/a/macros/icedu.kr/s/AKfycbz7SowWvhuSIr3IQLF-rrFHeJTNDHLcqyobKuc9SoYFGif7MI48ST2P4sfacYnlGOl7/exec" target="_blank" class="btn" style="background-color: #495057; border: 1px solid rgba(255,255,255,0.5); color: white; padding: 5px 10px; font-size: 0.9rem; cursor: pointer; border-radius: 5px; text-decoration: none; display: flex; align-items: center; justify-content: center;">
+        <i class="fas fa-table" style="margin-right: 5px;"></i> 리그 대진표
       </a>
     </div>
 
@@ -537,8 +530,6 @@
             yellow: { boxBorder: 'border-yellow-500', nameText: 'text-yellow-400', minusBtn: ['bg-yellow-900/50', 'hover:bg-yellow-800', 'text-yellow-200'], plusBtn: ['bg-yellow-600', 'hover:bg-yellow-500'], penaltyBadge: 'bg-yellow-600', rosterCountBg: ['bg-yellow-900/50', 'border-yellow-500/30'] },
             green: { boxBorder: 'border-green-500', nameText: 'text-green-400', minusBtn: ['bg-green-900/50', 'hover:bg-green-800', 'text-green-200'], plusBtn: ['bg-green-600', 'hover:bg-green-500'], penaltyBadge: 'bg-green-600', rosterCountBg: ['bg-green-900/50', 'border-green-500/30'] }
         };
-
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwd_Nwgowr8VheEpLX6_ORTAeEbcaI62ueG31YDdTdor8pwoHJT4l8fkG0eNPRUJ0kZ/exec';
 
         let currentColors = { A: 'red', B: 'blue' };
         let timerInterval;
@@ -1002,6 +993,9 @@
                 alert("A팀과 B팀의 이름이 같을 수 없습니다."); return;
             }
 
+            // ★ 선생님의 최신 구글 앱스 스크립트 '웹 앱 URL' ★
+            const WEB_APP_URL = 'https://script.google.com/a/macros/icedu.kr/s/AKfycbytb5cxaIxq0H05PJQ2wD1toJndx7TDlThQjgvywAgZb7b6qM6G_XXgN2aAX5SG3j6I/exec';
+
             const payload = {
                 action: 'saveScore',
                 grade: '3',
@@ -1022,6 +1016,7 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = "📡 전송 중...";
 
+            // CORS 차단을 방지하기 위해 text/plain 방식 사용
             fetch(WEB_APP_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1038,7 +1033,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert("❌ 서버 연결 실패. (앱스 스크립트 '모든 사용자' 권한을 확인해주세요.)");
+                alert("❌ 서버 연결 실패. (앱스 스크립트 권한 문제 또는 오프라인 상태입니다.)");
             })
             .finally(() => {
                 submitBtn.disabled = false;
@@ -1069,6 +1064,9 @@
             const date = document.getElementById('fetch-date').value;
             const teamA = document.getElementById('fetch-teamA').value;
             const teamB = document.getElementById('fetch-teamB').value;
+
+            // ★ 선생님의 최신 구글 앱스 스크립트 '웹 앱 URL' ★
+            const WEB_APP_URL = 'https://script.google.com/a/macros/icedu.kr/s/AKfycbytb5cxaIxq0H05PJQ2wD1toJndx7TDlThQjgvywAgZb7b6qM6G_XXgN2aAX5SG3j6I/exec'; 
 
             const payload = {
                 action: 'fetchRoster',
