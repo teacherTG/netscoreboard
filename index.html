@@ -118,7 +118,7 @@
             border-bottom: 2px solid rgba(255,255,255,0.3);
         }
 
-        /* 전체화면 CSS (비율 최적화) */
+        /* 전체화면 CSS (비율 최적화 - 센터패스 잘림 방지) */
         :fullscreen body {
             padding: 0 !important;
             margin: 0 !important;
@@ -146,152 +146,78 @@
             scroll-snap-align: center;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; 
-            /* 여백을 살짝 줄여서 위로 끌어올림 */
-            padding: 1.5vh 2vw 3vh 2vw; 
+            justify-content: flex-start; /* 간격 압축을 위해 상단 정렬로 변경 */
+            padding: 1vh 2vw; /* 전체 여백 축소 */
             box-sizing: border-box;
         }
 
         :fullscreen #view-scoreboard .top-section {
             flex-grow: 0;
-            margin-top: 1vh;
-            /* 여백 축소 */
-            margin-bottom: 1vh; 
+            margin-top: 0; /* 여백 제거 */
+            margin-bottom: 0.5vh; 
         }
         
-        :fullscreen #quarter-display { font-size: 7.5vh !important; } /* 폰트 약간 축소 */
+        :fullscreen #quarter-display { font-size: 7vh !important; } /* 폰트 축소 */
         :fullscreen #maker-text {
-            font-size: 2vh !important;
-            margin-top: 0.5vh !important;
-            margin-bottom: 1.5vh !important;
+            font-size: 1.5vh !important;
+            margin-top: 0 !important;
+            margin-bottom: 0.5vh !important;
         }
         :fullscreen .top-section > div:first-child > button {
-            width: 6.5vh !important; 
-            height: 6.5vh !important;
+            width: 6vh !important; 
+            height: 6vh !important;
             font-size: 3vh !important;
         }
         
         :fullscreen #timer-mins,
         :fullscreen #timer-secs,
         :fullscreen .timer-colon {
-            /* 폰트 약간 축소 */
-            font-size: 14vh !important;
+            font-size: 12vh !important; /* 타이머 폰트 크게 축소 */
             line-height: 1;
         }
         
-        :fullscreen .time-adjust-btns button { padding: 1vh !important; }
-        :fullscreen .time-adjust-btns svg { width: 3.5vh !important; height: 3.5vh !important; }
+        :fullscreen .time-adjust-btns button { padding: 0.5vh !important; }
+        :fullscreen .time-adjust-btns svg { width: 3vh !important; height: 3vh !important; }
 
         :fullscreen #view-scoreboard .score-section {
             flex-grow: 1;
             align-items: stretch;
             margin-bottom: 0;
-            /* 점수판 높이 유연하게 조절 */
             height: auto; 
-            min-height: 40vh;
+            min-height: 35vh; /* 최소 높이 축소 */
         }
         
         :fullscreen .score-box {
-            padding: 1vh 2vw 1.5vh 2vw !important; 
+            padding: 1vh 1.5vw !important; /* 패딩 축소 */
             justify-content: space-between;
         }
         :fullscreen .team-name-input {
-            font-size: 3.5vh !important;
-            margin-bottom: 0.5vh !important;
+            font-size: 3vh !important; /* 폰트 축소 */
+            margin-bottom: 0.2vh !important;
         }
         :fullscreen [id^="score-A"], :fullscreen [id^="score-B"] {
-            font-size: 10vh !important; /* 폰트 약간 축소 */
-            margin-bottom: 0.5vh !important;
+            font-size: 9vh !important; /* 폰트 축소 */
+            margin-bottom: 0.2vh !important;
         }
         
         :fullscreen .score-box button {
-            padding-top: 1vh !important;
-            padding-bottom: 1vh !important;
-            font-size: 2.2vh !important;
+            padding-top: 0.8vh !important;
+            padding-bottom: 0.8vh !important;
+            font-size: 2vh !important;
         }
         
         :fullscreen [id^="cp-A"], :fullscreen [id^="cp-B"] {
-            margin-top: 0.5vh !important;
-            /* 패딩을 줄여서 잘림 현상 방지 */
-            padding-top: 1.2vh !important;
-            padding-bottom: 1.2vh !important;
-            font-size: 2vh !important;
-        }
-
-        :fullscreen .controls-panel { justify-content: center; }
-        :fullscreen .controls-panel button {
-            /* 컨트롤 패널 버튼 패딩 축소 */
-            padding-top: 1vh !important;
+            margin-top: 0.2vh !important;
+            padding-top: 1vh !important; /* 패딩 최소화 */
             padding-bottom: 1vh !important;
-            font-size: 1.8vh !important;
-        }
-
-        :fullscreen #view-scoreboard .top-section {
-            flex-grow: 0;
-            margin-top: 1vh;
-            margin-bottom: 2vh; 
-        }
-        
-        :fullscreen #quarter-display { font-size: 8vh !important; }
-        :fullscreen #maker-text {
             font-size: 2vh !important;
-            margin-top: 1vh !important;
-            margin-bottom: 2vh !important;
-        }
-        :fullscreen .top-section > div:first-child > button {
-            width: 7vh !important; 
-            height: 7vh !important;
-            font-size: 3.5vh !important;
-        }
-        
-        :fullscreen #timer-mins,
-        :fullscreen #timer-secs,
-        :fullscreen .timer-colon {
-            font-size: 15vh !important;
-            line-height: 1;
-        }
-        
-        :fullscreen .time-adjust-btns button { padding: 1vh !important; }
-        :fullscreen .time-adjust-btns svg { width: 4vh !important; height: 4vh !important; }
-
-        :fullscreen #view-scoreboard .score-section {
-            flex-grow: 1;
-            align-items: stretch;
-            margin-bottom: 0;
-            height: 44vh; 
-        }
-        
-        :fullscreen .score-box {
-            padding: 1.5vh 2vw !important; 
-            justify-content: space-between;
-        }
-        :fullscreen .team-name-input {
-            font-size: 4vh !important;
-            margin-bottom: 0.5vh !important;
-        }
-        :fullscreen [id^="score-A"], :fullscreen [id^="score-B"] {
-            font-size: 11vh !important; 
-            margin-bottom: 1vh !important;
-        }
-        
-        :fullscreen .score-box button {
-            padding-top: 1vh !important;
-            padding-bottom: 1vh !important;
-            font-size: 2.5vh !important;
-        }
-        
-        :fullscreen [id^="cp-A"], :fullscreen [id^="cp-B"] {
-            margin-top: 1vh !important;
-            padding-top: 1.5vh !important;
-            padding-bottom: 1.5vh !important;
-            font-size: 2.2vh !important;
         }
 
-        :fullscreen .controls-panel { justify-content: center; }
+        :fullscreen .controls-panel { justify-content: flex-start; gap: 0.5vh !important; } /* 버튼 간격 축소 */
         :fullscreen .controls-panel button {
-            padding-top: 1.5vh !important;
-            padding-bottom: 1.5vh !important;
-            font-size: 2vh !important;
+            padding-top: 0.8vh !important;
+            padding-bottom: 0.8vh !important;
+            font-size: 1.6vh !important;
         }
     </style>
 </head>
@@ -626,6 +552,11 @@
     </div>
 
     <script>
+        // ==========================================================
+        // ★ [매우 중요] 아래에 선생님의 개인 구글 계정 웹앱 주소를 넣으세요! ★
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzzOfjEHorOP-vLGzF5zlfxgohLLBNk4esYASqOWIfcGj-shMfjJERGDkZJTHQJDnAw/exec'; 
+        // ==========================================================
+
         const teamColorThemes = {
             red: { boxBorder: 'border-red-500', nameText: 'text-red-400', minusBtn: ['bg-red-900/50', 'hover:bg-red-800', 'text-red-200'], plusBtn: ['bg-red-600', 'hover:bg-red-500'], penaltyBadge: 'bg-red-600', rosterCountBg: ['bg-red-900/50', 'border-red-500/30'] },
             blue: { boxBorder: 'border-blue-500', nameText: 'text-blue-400', minusBtn: ['bg-blue-900/50', 'hover:bg-blue-800', 'text-blue-200'], plusBtn: ['bg-blue-600', 'hover:bg-blue-500'], penaltyBadge: 'bg-blue-600', rosterCountBg: ['bg-blue-900/50', 'border-blue-500/30'] },
@@ -1003,6 +934,7 @@
 
             badgeContainer.innerHTML = '';
             record.forEach(q => {
+                if (q > 3) return; // 4쿼터 뱃지 생성 방지
                 const badge = document.createElement('div');
                 badge.className = `quarter-badge badge-q${q}`;
                 badge.innerText = q;
@@ -1099,8 +1031,18 @@
                 alert("A팀과 B팀의 이름이 같을 수 없습니다."); return;
             }
 
-            // ★ 결과 전송용 앱스 스크립트 웹앱 주소 ★
-            const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzzOfjEHorOP-vLGzF5zlfxgohLLBNk4esYASqOWIfcGj-shMfjJERGDkZJTHQJDnAw/exec';
+            // 전광판 출전 기록 변환 (1Q=A팀, 2Q=B팀, 3Q=C팀)
+            let playerDetails = [];
+            Object.keys(players.A).forEach(num => {
+                if (players.A[num].includes(1)) playerDetails.push({ team: teamA, subTeam: 'A팀', num: num, name: num+"번", isAttended: true, card: 'none' });
+                if (players.A[num].includes(2)) playerDetails.push({ team: teamA, subTeam: 'B팀', num: num, name: num+"번", isAttended: true, card: 'none' });
+                if (players.A[num].includes(3)) playerDetails.push({ team: teamA, subTeam: 'C팀', num: num, name: num+"번", isAttended: true, card: 'none' });
+            });
+            Object.keys(players.B).forEach(num => {
+                if (players.B[num].includes(1)) playerDetails.push({ team: teamB, subTeam: 'A팀', num: num, name: num+"번", isAttended: true, card: 'none' });
+                if (players.B[num].includes(2)) playerDetails.push({ team: teamB, subTeam: 'B팀', num: num, name: num+"번", isAttended: true, card: 'none' });
+                if (players.B[num].includes(3)) playerDetails.push({ team: teamB, subTeam: 'C팀', num: num, name: num+"번", isAttended: true, card: 'none' });
+            });
 
             const payload = {
                 action: 'saveScore',
@@ -1114,7 +1056,8 @@
                     scoreA: scores.A,
                     scoreB: scores.B,
                     teamA_warnings: teamWarnings.A,
-                    teamB_warnings: teamWarnings.B
+                    teamB_warnings: teamWarnings.B,
+                    playerDetails: playerDetails
                 }
             };
 
@@ -1122,6 +1065,7 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = "📡 전송 중...";
 
+            // CORS 문제 방지를 위해 text/plain 으로 우회 전송
             fetch(WEB_APP_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1130,7 +1074,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert("✅ 경기 결과가 리그 대진표로 성공적으로 전송되었습니다!");
+                    alert("✅ 경기 결과와 선수 출전 기록이 대진표로 성공적으로 전송되었습니다!");
                     closeSubmitModal();
                 } else {
                     alert("❌ 전송 실패: " + data.message);
@@ -1138,7 +1082,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert("❌ 서버 연결 실패. (앱스 스크립트 권한 문제 또는 오프라인 상태입니다.)");
+                alert("❌ 서버 연결 실패. 스크립트 상단의 웹앱 주소(WEB_APP_URL)가 올바른지 확인해주세요.");
             })
             .finally(() => {
                 submitBtn.disabled = false;
@@ -1174,9 +1118,6 @@
             const teamA = document.getElementById('fetch-teamA').value;
             const teamB = document.getElementById('fetch-teamB').value;
 
-            // ★ 방금 성공하신 선생님의 최신 구글 앱스 스크립트 '웹 앱 URL'을 꼭 이곳에 넣어주세요! ★
-            const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzzOfjEHorOP-vLGzF5zlfxgohLLBNk4esYASqOWIfcGj-shMfjJERGDkZJTHQJDnAw/exec'; 
-
             const payload = {
                 action: 'fetchRoster',
                 grade: '3',
@@ -1198,32 +1139,28 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    initPlayersData();
+                    initPlayersData(); 
                     
-                    // A팀 명단을 쿼터별로 정확히 분배
                     if(data.teamA) {
                         Object.keys(data.teamA).forEach(num => {
                             let n = parseInt(num);
+                            let subTeamArray = data.teamA[num]; 
                             if (n >= 1 && n <= 15) {
-                                let q = [];
-                                if (data.teamA[num].includes('A팀')) q.push(1);
-                                if (data.teamA[num].includes('B팀')) q.push(2);
-                                if (data.teamA[num].includes('C팀')) q.push(3);
-                                players.A[n] = q;
+                                if (subTeamArray.includes('A팀')) players.A[n].push(1);
+                                if (subTeamArray.includes('B팀')) players.A[n].push(2);
+                                if (subTeamArray.includes('C팀')) players.A[n].push(3);
                             }
                         });
                     }
                     
-                    // B팀 명단도 쿼터별로 정확히 분배
                     if(data.teamB) {
                         Object.keys(data.teamB).forEach(num => {
                             let n = parseInt(num);
+                            let subTeamArray = data.teamB[num];
                             if (n >= 1 && n <= 15) {
-                                let q = [];
-                                if (data.teamB[num].includes('A팀')) q.push(1);
-                                if (data.teamB[num].includes('B팀')) q.push(2);
-                                if (data.teamB[num].includes('C팀')) q.push(3);
-                                players.B[n] = q;
+                                if (subTeamArray.includes('A팀')) players.B[n].push(1);
+                                if (subTeamArray.includes('B팀')) players.B[n].push(2);
+                                if (subTeamArray.includes('C팀')) players.B[n].push(3);
                             }
                         });
                     }
@@ -1234,12 +1171,12 @@
                     alert("✅ 출전 명단을 쿼터별로 정확하게 매핑하여 불러왔습니다!");
                     closeFetchModal();
                 } else {
-                    alert("❌ 명단 불러오기 실패: " + data.message + "\n(리그대진표에 해당 경기 출전명단이 저장되어 있는지 확인하세요)");
+                    alert("❌ 명단 불러오기 실패: " + data.message);
                 }
             })
             .catch(error => {
                 console.error('Fetch Error:', error);
-                alert("서버 연결에 실패했습니다. (CORS 권한 문제 또는 오프라인 상태입니다.)");
+                alert("서버 연결에 실패했습니다. 스크립트 상단의 웹앱 주소(WEB_APP_URL)가 정확한지 확인해주세요.");
             })
             .finally(() => {
                 fetchBtn.disabled = false;
