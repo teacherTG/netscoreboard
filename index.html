@@ -994,7 +994,7 @@
             }
 
             // ★ 결과 전송용 앱스 스크립트 웹앱 주소 ★
-            const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzOGs6JbYvq-vUPlUiRVIOJVojzrkek95iClEWyV8hFHNsHAc-LLMLnbdd7xVoKAjrv/exec';
+            const WEB_APP_URL = '★선생님의_웹앱주소를_여기에_넣어주세요★';
 
             const payload = {
                 action: 'saveScore',
@@ -1065,7 +1065,7 @@
             const teamB = document.getElementById('fetch-teamB').value;
 
             // ★ 방금 성공하신 선생님의 최신 구글 앱스 스크립트 '웹 앱 URL'을 꼭 이곳에 넣어주세요! ★
-            const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzOGs6JbYvq-vUPlUiRVIOJVojzrkek95iClEWyV8hFHNsHAc-LLMLnbdd7xVoKAjrv/exec'; 
+            const WEB_APP_URL = '★선생님의_웹앱주소를_여기에_넣어주세요★'; 
 
             const payload = {
                 action: 'fetchRoster',
@@ -1090,7 +1090,7 @@
                 if (data.success) {
                     initPlayersData();
                     
-                    // A팀 명단을 쿼터별로 정확히 분배 (A팀->1Q, B팀->2Q, C팀->3Q,4Q)
+                    // A팀 명단을 쿼터별로 정확히 분배 (A팀->1Q, B팀->2Q, C팀->3Q)
                     if(data.teamA) {
                         Object.keys(data.teamA).forEach(num => {
                             let n = parseInt(num);
@@ -1098,7 +1098,7 @@
                                 let q = [];
                                 if (data.teamA[num].includes('A팀')) q.push(1);
                                 if (data.teamA[num].includes('B팀')) q.push(2);
-                                if (data.teamA[num].includes('C팀')) { q.push(3); q.push(4); }
+                                if (data.teamA[num].includes('C팀')) q.push(3);
                                 players.A[n] = q;
                             }
                         });
@@ -1112,7 +1112,7 @@
                                 let q = [];
                                 if (data.teamB[num].includes('A팀')) q.push(1);
                                 if (data.teamB[num].includes('B팀')) q.push(2);
-                                if (data.teamB[num].includes('C팀')) { q.push(3); q.push(4); }
+                                if (data.teamB[num].includes('C팀')) q.push(3);
                                 players.B[n] = q;
                             }
                         });
