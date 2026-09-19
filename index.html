@@ -118,13 +118,15 @@
             border-bottom: 2px solid rgba(255,255,255,0.3);
         }
 
-        /* 전체화면 CSS (비율 최적화 - 센터패스 잘림 방지 및 폰트 확대) */
+        /* =======================================================
+           전체화면 CSS (비율 최적화 - 센터패스 잘림 방지 및 폰트 대폭 확대)
+           ======================================================= */
         :fullscreen body {
             padding: 0 !important;
             margin: 0 !important;
             overflow: hidden; 
             display: flex;
-            align-items: center; /* 수직 중앙 정렬로 위아래 짤림 최소화 */
+            align-items: center; /* 수직 중앙 정렬로 위아래 짤림 방지 */
             background-color: #0f172a;
         }
         
@@ -151,18 +153,18 @@
             display: flex;
             flex-direction: column;
             justify-content: center; /* 전체 화면 내에서 수직 중앙 배치 */
-            padding: 1vh 1vw !important; /* 최소 여백만 유지 */
+            padding: 0.5vh 1vw !important; /* 여백을 0.5vh로 극한 압축 */
             box-sizing: border-box;
         }
 
         :fullscreen #view-scoreboard .top-section {
             flex-grow: 0;
             margin-top: 0; 
-            margin-bottom: 1vh !important; /* 아래 영역과 간격 축소 */
+            margin-bottom: 0.5vh !important; /* 간격 최소화 */
         }
         
-        /* 1. 쿼터 텍스트 확대 */
-        :fullscreen #quarter-display { font-size: 10vh !important; } 
+        /* 1. 쿼터 텍스트 50% 이상 확대 */
+        :fullscreen #quarter-display { font-size: 15vh !important; line-height: 1; } 
         
         /* 공간 확보를 위해 제작자 텍스트 숨김 */
         :fullscreen #maker-text { display: none !important; }
@@ -170,15 +172,15 @@
         :fullscreen .top-section > div:first-child > button {
             width: 8vh !important; 
             height: 8vh !important;
-            font-size: 4vh !important;
+            font-size: 5vh !important;
         }
         
         /* 2. 타이머 텍스트 50% 확대 */
         :fullscreen #timer-mins,
         :fullscreen #timer-secs,
         :fullscreen .timer-colon {
-            font-size: 20vh !important; 
-            line-height: 0.8 !important; /* 줄간격 줄여서 높이차지 방지 */
+            font-size: 30vh !important; 
+            line-height: 0.75 !important; /* 줄간격 대폭 줄여서 높이 차지 방지 */
         }
         
         :fullscreen .time-adjust-btns button { padding: 0.5vh !important; }
@@ -189,230 +191,243 @@
             align-items: stretch;
             margin-bottom: 0;
             height: auto; 
-            max-height: 65vh; /* 하단 짤림 방지를 위한 최대 높이 제한 */
+            max-height: 60vh; /* 점수판 높이 제한으로 하단 버튼 공간 확보 */
         }
         
         :fullscreen .score-box {
-            padding: 1.5vh 2vw !important; 
-            justify-content: space-evenly; /* 안쪽 요소들 간격 꽉 차게 조절 */
+            padding: 1vh 2vw !important; /* 패딩 축소 */
+            justify-content: space-evenly; 
         }
         
-        /* 3. 팀명 텍스트 확대 */
+        /* 3. 팀명 텍스트 대폭 확대 */
         :fullscreen .team-name-input {
-            font-size: 6vh !important; 
+            font-size: 10vh !important; 
             margin-bottom: 0 !important;
         }
         
         /* 4. 누적 경고 텍스트 확대 */
         :fullscreen .warning-badge-container {
-            font-size: 2.5vh !important;
-            padding: 0.5vh 1.5vw !important;
+            font-size: 3.5vh !important;
+            padding: 0.5vh 2vw !important;
             margin-bottom: 0 !important;
         }
-        :fullscreen .warning-badge-container span:last-child {
-            font-size: 3.5vh !important;
+        :fullscreen .warning-badge-container span[id^="team-warnings"] {
+            font-size: 5vh !important;
+        }
+        :fullscreen .warning-badge-container button {
+            width: 4vh !important;
+            height: 4vh !important;
+            font-size: 3vh !important;
         }
 
-        /* 5. 스코어 텍스트 확대 */
+        /* 5. 스코어 텍스트 50% 이상 확대 */
         :fullscreen [id^="score-A"], :fullscreen [id^="score-B"] {
-            font-size: 22vh !important; 
+            font-size: 28vh !important; 
             margin-bottom: 0 !important;
-            line-height: 0.9 !important;
+            line-height: 0.85 !important;
         }
         
         :fullscreen .score-box .score-btn-group {
             width: 100%;
             display: flex;
             gap: 1vw !important;
-            margin-bottom: 1vh !important;
+            margin-bottom: 0.5vh !important;
         }
         :fullscreen .score-box .score-btn-group button {
-            padding-top: 1.5vh !important;
-            padding-bottom: 1.5vh !important;
-            font-size: 4vh !important;
+            padding-top: 1vh !important;
+            padding-bottom: 1vh !important;
+            font-size: 5vh !important;
         }
         
-        /* 6. 센터패스 버튼 잘림 방지 및 확대 */
+        /* 6. 센터패스 버튼 잘림 방지 (여백 최소화) */
         :fullscreen [id^="cp-A"], :fullscreen [id^="cp-B"] {
             margin-top: 0 !important;
             padding-top: 1.5vh !important; 
             padding-bottom: 1.5vh !important;
-            font-size: 3.5vh !important;
+            font-size: 4vh !important;
         }
 
         :fullscreen .controls-panel { 
             justify-content: space-between; 
             gap: 0.5vh !important; 
-            padding-top: 1vh;
-            padding-bottom: 1vh;
+            padding-top: 0.5vh;
+            padding-bottom: 0.5vh;
         }
         :fullscreen .controls-panel button {
             padding-top: 0 !important;
             padding-bottom: 0 !important;
             font-size: 1.8vh !important;
-            height: 100%; /* 버튼이 공간을 균등하게 나눠 가짐 */
+            height: 100%; 
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center p-2 md:p-6 pb-20 relative">
+<body class="min-h-screen flex flex-col items-center p-2 md:p-4 pb-10 relative">
 
     <!-- 상단 좌측: 전체화면 & 리그 대진표 버튼 -->
-    <div style="position: absolute; top: 20px; left: 20px; z-index: 1000; display: flex; gap: 10px;">
-      <button id="fullscreen-btn" class="btn" onclick="toggleFullScreen()" style="background-color: transparent; border: 1px solid rgba(255,255,255,0.5); color: white; padding: 5px 10px; font-size: 0.9rem; cursor: pointer; border-radius: 5px;">
+    <div style="position: absolute; top: 15px; left: 15px; z-index: 1000; display: flex; gap: 10px;">
+      <button id="fullscreen-btn" class="btn" onclick="toggleFullScreen()" style="background-color: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 12px; font-size: 0.85rem; font-weight: bold; cursor: pointer; border-radius: 6px; transition: all 0.2s;">
         <i class="fas fa-expand"></i> 전체화면
       </button>
-      <a href="https://script.google.com/a/macros/icedu.kr/s/AKfycbz7SowWvhuSIr3IQLF-rrFHeJTNDHLcqyobKuc9SoYFGif7MI48ST2P4sfacYnlGOl7/exec" target="_blank" class="btn" style="background-color: #495057; border: 1px solid rgba(255,255,255,0.5); color: white; padding: 5px 10px; font-size: 0.9rem; cursor: pointer; border-radius: 5px; text-decoration: none; display: flex; align-items: center; justify-content: center;">
+      <a href="https://script.google.com/a/macros/icedu.kr/s/AKfycbz7SowWvhuSIr3IQLF-rrFHeJTNDHLcqyobKuc9SoYFGif7MI48ST2P4sfacYnlGOl7/exec" target="_blank" class="btn" style="background-color: rgba(73,80,87,0.8); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 12px; font-size: 0.85rem; font-weight: bold; cursor: pointer; border-radius: 6px; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: all 0.2s;">
         <i class="fas fa-table" style="margin-right: 5px;"></i> 리그 대진표
       </a>
     </div>
 
     <!-- 스와이프 가능한 슬라이더 컨테이너 -->
-    <div id="slider-container" class="w-full flex flex-col gap-8 mt-12">
+    <div id="slider-container" class="w-full flex flex-col gap-8 mt-10">
         
         <!-- ================= PAGE 1 : 점수판 뷰 ================= -->
         <div id="view-scoreboard" class="slide-view flex flex-col items-center relative w-full">
             
             <!-- 시간 설정 패널 -->
-            <div class="settings-panel absolute top-0 right-0 md:right-4 z-10 bg-gray-800 p-3 rounded-xl shadow-lg border border-gray-600 flex items-center gap-2">
+            <div class="settings-panel absolute top-0 right-0 md:right-4 z-10 bg-gray-800 p-2 md:p-3 rounded-xl shadow-lg border border-gray-600 flex items-center gap-2">
                 <label class="text-xs text-gray-400 font-bold">시간설정</label>
-                <input type="number" id="time-input" value="12" min="1" max="60" class="w-16 bg-gray-900 text-white border border-gray-700 rounded px-2 py-1 text-center font-bold">
+                <input type="number" id="time-input" value="12" min="1" max="60" class="w-12 md:w-16 bg-gray-900 text-white border border-gray-700 rounded px-1 py-1 text-center font-bold">
                 <span class="text-xs text-gray-400">분</span>
-                <button onclick="setTime()" class="ml-1 bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded font-bold transition">적용</button>
+                <button onclick="setTime()" class="ml-1 bg-blue-600 hover:bg-blue-500 text-white text-xs px-2 py-1 md:px-3 md:py-1.5 rounded font-bold transition">적용</button>
             </div>
 
             <!-- 1. 쿼터 & 타이머 영역 -->
-            <div class="top-section w-full flex flex-col items-center mb-6 mt-2 md:mt-0 relative">
+            <div class="top-section w-full flex flex-col items-center mb-4 mt-2 relative">
                 <!-- 쿼터 (이전/다음 버튼 양쪽) -->
-                <div class="flex items-center gap-4 md:gap-6 z-10">
-                    <button onclick="prevQuarter()" class="w-12 h-12 md:w-16 md:h-16 bg-gray-700 hover:bg-gray-600 rounded-full flex justify-center items-center text-3xl font-black transition shadow-lg border border-gray-400">
+                <div class="flex items-center gap-4 md:gap-8 z-10">
+                    <button onclick="prevQuarter()" class="w-10 h-10 md:w-16 md:h-16 bg-gray-700 hover:bg-gray-600 rounded-full flex justify-center items-center text-2xl md:text-4xl font-black transition shadow-lg border border-gray-400">
                         &lt;
                     </button>
-                    <div id="quarter-display" class="text-6xl md:text-[7rem] font-black text-yellow-400 tracking-widest drop-shadow-[0_0_20px_rgba(253,224,71,0.5)]">
+                    <!-- 글씨 50% 확대 (text-6xl -> text-8xl) -->
+                    <div id="quarter-display" class="text-6xl md:text-8xl font-black text-yellow-400 tracking-widest drop-shadow-[0_0_20px_rgba(253,224,71,0.5)]">
                         1 Quarter
                     </div>
-                    <button onclick="nextQuarter()" class="w-12 h-12 md:w-16 md:h-16 bg-gray-700 hover:bg-gray-600 rounded-full flex justify-center items-center text-3xl font-black transition shadow-lg border border-gray-400">
+                    <button onclick="nextQuarter()" class="w-10 h-10 md:w-16 md:h-16 bg-gray-700 hover:bg-gray-600 rounded-full flex justify-center items-center text-2xl md:text-4xl font-black transition shadow-lg border border-gray-400">
                         &gt;
                     </button>
                 </div>
 
                 <!-- 제작자 텍스트 -->
-                <div id="maker-text" class="text-center text-gray-500/80 font-bold text-sm md:text-base tracking-widest w-full mt-2 md:mt-4 mb-2 md:mb-4">
+                <div id="maker-text" class="text-center text-gray-500/80 font-bold text-xs md:text-sm tracking-widest w-full mt-2 mb-2">
                     made by. 한태건 T
                 </div>
                 
                 <!-- 타이머 영역 및 미세조절 버튼 -->
                 <div id="timer-wrapper" class="relative flex justify-center items-center font-black tracking-[0.2em] text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.9)] leading-none tabular-nums z-10">
                     
-                    <div class="time-adjust-btns absolute -left-14 md:-left-20 top-1/2 -translate-y-1/2 flex flex-col gap-2 transition-opacity duration-300">
-                        <button onclick="adjustTime(60)" class="text-gray-400 hover:text-white bg-gray-800/60 hover:bg-gray-700/80 border border-gray-600/50 rounded-xl p-2 shadow-lg backdrop-blur-md transition-all hover:scale-110 active:scale-95">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" /></svg>
+                    <div class="time-adjust-btns absolute -left-12 md:-left-20 top-1/2 -translate-y-1/2 flex flex-col gap-1 md:gap-2 transition-opacity duration-300">
+                        <button onclick="adjustTime(60)" class="text-gray-400 hover:text-white bg-gray-800/60 hover:bg-gray-700/80 border border-gray-600/50 rounded-lg p-1.5 md:p-2 shadow-lg backdrop-blur-md transition-all hover:scale-110">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" /></svg>
                         </button>
-                        <button onclick="adjustTime(-60)" class="text-gray-400 hover:text-white bg-gray-800/60 hover:bg-gray-700/80 border border-gray-600/50 rounded-xl p-2 shadow-lg backdrop-blur-md transition-all hover:scale-110 active:scale-95">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                        <button onclick="adjustTime(-60)" class="text-gray-400 hover:text-white bg-gray-800/60 hover:bg-gray-700/80 border border-gray-600/50 rounded-lg p-1.5 md:p-2 shadow-lg backdrop-blur-md transition-all hover:scale-110">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                         </button>
                     </div>
 
-                    <div class="flex items-center px-6 md:px-10">
-                        <span id="timer-mins" class="text-[9rem] md:text-[18rem]">12</span>
-                        <span class="timer-colon text-[9rem] md:text-[18rem] mx-2 md:mx-6 pb-4 md:pb-8">:</span>
-                        <span id="timer-secs" class="text-[9rem] md:text-[18rem]">00</span>
+                    <div class="flex items-center px-4 md:px-8">
+                        <!-- 글씨 50% 확대 (text-9xl -> text-[12rem] md:text-[20rem]) -->
+                        <span id="timer-mins" class="text-[8rem] md:text-[18rem]">12</span>
+                        <span class="timer-colon text-[8rem] md:text-[18rem] mx-2 md:mx-4 pb-4 md:pb-6">:</span>
+                        <span id="timer-secs" class="text-[8rem] md:text-[18rem]">00</span>
                     </div>
 
-                    <div class="time-adjust-btns absolute -right-14 md:-right-20 top-1/2 -translate-y-1/2 flex flex-col gap-2 transition-opacity duration-300">
-                        <button onclick="adjustTime(1)" class="text-gray-400 hover:text-white bg-gray-800/60 hover:bg-gray-700/80 border border-gray-600/50 rounded-xl p-2 shadow-lg backdrop-blur-md transition-all hover:scale-110 active:scale-95">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" /></svg>
+                    <div class="time-adjust-btns absolute -right-12 md:-right-20 top-1/2 -translate-y-1/2 flex flex-col gap-1 md:gap-2 transition-opacity duration-300">
+                        <button onclick="adjustTime(1)" class="text-gray-400 hover:text-white bg-gray-800/60 hover:bg-gray-700/80 border border-gray-600/50 rounded-lg p-1.5 md:p-2 shadow-lg backdrop-blur-md transition-all hover:scale-110">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" /></svg>
                         </button>
-                        <button onclick="adjustTime(-1)" class="text-gray-400 hover:text-white bg-gray-800/60 hover:bg-gray-700/80 border border-gray-600/50 rounded-xl p-2 shadow-lg backdrop-blur-md transition-all hover:scale-110 active:scale-95">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                        <button onclick="adjustTime(-1)" class="text-gray-400 hover:text-white bg-gray-800/60 hover:bg-gray-700/80 border border-gray-600/50 rounded-lg p-1.5 md:p-2 shadow-lg backdrop-blur-md transition-all hover:scale-110">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
                         </button>
                     </div>
                 </div>
             </div>
 
             <!-- 2. 점수판 및 컨트롤 패널 -->
-            <div class="score-section w-full max-w-[95%] flex flex-col md:flex-row justify-between items-stretch gap-4 md:gap-8 mb-4">
+            <div class="score-section w-full max-w-[98%] flex flex-col md:flex-row justify-between items-stretch gap-3 md:gap-6 mb-2">
                 
                 <!-- TEAM A -->
-                <div id="score-box-A" class="score-box glass-panel rounded-3xl p-4 md:p-6 flex-1 flex flex-col items-center relative overflow-hidden shadow-2xl border-t-8 border-red-500 transition-all duration-300">
-                    <div id="penalty-badge-A" class="hidden absolute top-4 left-4 bg-red-600 text-white font-black px-3 py-1 rounded-lg border border-white shadow-lg text-sm md:text-base tracking-wider z-20">
+                <div id="score-box-A" class="score-box glass-panel rounded-3xl p-3 md:p-5 flex-1 flex flex-col items-center relative overflow-hidden shadow-2xl border-t-8 border-red-500 transition-all duration-300">
+                    <div id="penalty-badge-A" class="hidden absolute top-3 left-3 bg-red-600 text-white font-black px-2 py-1 rounded-lg border border-white shadow-lg text-xs md:text-sm tracking-wider z-20">
                         🚨 PENALTY
                     </div>
                     
-                    <div class="flex gap-2 mb-2 justify-center z-20 relative">
-                        <button id="color-A-red" onclick="setTeamColor('A', 'red')" class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-red-500 border border-transparent hover:border-white transition-all"></button>
-                        <button id="color-A-blue" onclick="setTeamColor('A', 'blue')" class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-blue-500 border border-transparent hover:border-white transition-all"></button>
-                        <button id="color-A-yellow" onclick="setTeamColor('A', 'yellow')" class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-yellow-500 border border-transparent hover:border-white transition-all"></button>
-                        <button id="color-A-green" onclick="setTeamColor('A', 'green')" class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-green-500 border border-transparent hover:border-white transition-all"></button>
+                    <div class="flex gap-2 mb-1 justify-center z-20 relative">
+                        <button id="color-A-red" onclick="setTeamColor('A', 'red')" class="w-4 h-4 rounded-full bg-red-500 border border-transparent hover:border-white transition-all"></button>
+                        <button id="color-A-blue" onclick="setTeamColor('A', 'blue')" class="w-4 h-4 rounded-full bg-blue-500 border border-transparent hover:border-white transition-all"></button>
+                        <button id="color-A-yellow" onclick="setTeamColor('A', 'yellow')" class="w-4 h-4 rounded-full bg-yellow-500 border border-transparent hover:border-white transition-all"></button>
+                        <button id="color-A-green" onclick="setTeamColor('A', 'green')" class="w-4 h-4 rounded-full bg-green-500 border border-transparent hover:border-white transition-all"></button>
                     </div>
 
-                    <input type="text" id="team-name-A" value="TEAM A" oninput="updateTeamName('A')" class="team-name-input text-red-400 font-black text-5xl md:text-6xl mb-1 tracking-widest uppercase" spellcheck="false" autocomplete="off">
+                    <!-- 팀명 글씨 확대 -->
+                    <input type="text" id="team-name-A" value="TEAM A" oninput="updateTeamName('A')" class="team-name-input text-red-400 font-black text-6xl md:text-7xl mb-1 tracking-widest uppercase" spellcheck="false" autocomplete="off">
                     
-                    <div class="warning-badge-container text-yellow-400 font-bold text-lg md:text-xl mb-2 bg-yellow-900/40 px-4 py-2 rounded-full border border-yellow-600/50 flex items-center gap-2 z-10 relative">
-                        <span>누적 경고:</span>
-                        <span id="team-warnings-A" class="text-white text-2xl md:text-3xl">0</span>
+                    <!-- 누적 경고 배지 확대 -->
+                    <div class="warning-badge-container text-yellow-400 font-bold text-lg md:text-xl mb-1 bg-yellow-900/40 px-4 py-1.5 rounded-full border border-yellow-600/50 flex items-center gap-3 z-10 relative">
+                        <span>팀 경고:</span>
+                        <button onclick="changeTeamWarning('A', -1)" class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gray-800 text-white hover:bg-gray-700 flex items-center justify-center font-bold border border-gray-600">-</button>
+                        <span id="team-warnings-A" class="text-white text-3xl md:text-4xl min-w-[1.5rem] text-center">0</span>
+                        <button onclick="changeTeamWarning('A', 1)" class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-yellow-600 text-white hover:bg-yellow-500 flex items-center justify-center font-bold border border-yellow-400 shadow-md">+</button>
                     </div>
 
-                    <div id="score-A" class="text-[10rem] md:text-[14rem] font-black mb-4 tracking-tighter leading-none">0</div>
-                    <div class="score-btn-group flex gap-4 w-full">
-                        <button id="btn-minus-A" onclick="changeScore('A', -1)" class="flex-1 bg-red-900/50 hover:bg-red-800 text-red-200 py-3 rounded-2xl font-bold text-4xl transition">-</button>
-                        <button id="btn-plus-A" onclick="changeScore('A', 1)" class="flex-[2] bg-red-600 hover:bg-red-500 text-white py-3 rounded-2xl font-black text-5xl shadow-lg transition">+</button>
+                    <!-- 스코어 글씨 확대 -->
+                    <div id="score-A" class="text-[9rem] md:text-[16rem] font-black mb-2 tracking-tighter leading-none">0</div>
+                    
+                    <div class="score-btn-group flex gap-3 w-full">
+                        <button id="btn-minus-A" onclick="changeScore('A', -1)" class="flex-1 bg-red-900/50 hover:bg-red-800 text-red-200 py-2 md:py-3 rounded-2xl font-bold text-4xl transition">-</button>
+                        <button id="btn-plus-A" onclick="changeScore('A', 1)" class="flex-[2] bg-red-600 hover:bg-red-500 text-white py-2 md:py-3 rounded-2xl font-black text-5xl md:text-6xl shadow-lg transition">+</button>
                     </div>
-                    <button id="cp-A" onclick="setCenterPass('A')" class="w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest flex items-center justify-center">
+                    <button id="cp-A" onclick="setCenterPass('A')" class="w-full mt-3 bg-gray-800 border-2 border-gray-600 text-gray-400 py-3 md:py-4 rounded-xl font-black text-lg md:text-xl transition uppercase tracking-widest flex items-center justify-center">
                         Center Pass
                     </button>
                 </div>
 
-                <!-- 중앙 컨트롤 버튼 패널 -->
-                <div class="controls-panel flex flex-col gap-3 w-full md:w-40 shrink-0 justify-center">
-                    <button id="btn-start" onclick="toggleTimer()" class="w-full bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg">
+                <!-- 중앙 컨트롤 버튼 패널 (높이 압축) -->
+                <div class="controls-panel flex flex-col gap-2 w-full md:w-36 shrink-0 justify-center">
+                    <button id="btn-start" onclick="toggleTimer()" class="w-full bg-green-600 hover:bg-green-500 text-white py-3 rounded-xl font-black text-lg transition shadow-lg">
                         시작
                     </button>
-                    <button onclick="showConfirm('시간을 초기화하시겠습니까?', resetTimer)" class="w-full bg-gray-700 hover:bg-gray-600 text-white py-4 rounded-xl font-bold text-base transition">
+                    <button onclick="showConfirm('시간을 초기화하시겠습니까?', resetTimer)" class="w-full bg-gray-700 hover:bg-gray-600 text-white py-3 rounded-xl font-bold text-sm md:text-base transition">
                         시간 초기화
                     </button>
-                    <button onclick="showConfirm('양 팀 점수를 0점으로 초기화하시겠습니까?', resetScores)" class="w-full border border-red-800/50 bg-red-900/40 hover:bg-red-800/60 text-red-300 py-4 rounded-xl font-bold text-base transition">
+                    <button onclick="showConfirm('양 팀 점수를 0점으로 초기화하시겠습니까?', resetScores)" class="w-full border border-red-800/50 bg-red-900/40 hover:bg-red-800/60 text-red-300 py-3 rounded-xl font-bold text-sm md:text-base transition">
                         점수 초기화
                     </button>
-                    <button onclick="showConfirm('모든 선수의 기록(출전/경고)을 초기화하시겠습니까?', resetPlayers)" class="w-full border border-gray-600 bg-gray-800 hover:bg-gray-700 text-gray-300 py-4 rounded-xl font-bold text-base transition">
+                    <button onclick="showConfirm('모든 선수의 기록(출전/경고)을 초기화하시겠습니까?', resetPlayers)" class="w-full border border-gray-600 bg-gray-800 hover:bg-gray-700 text-gray-300 py-3 rounded-xl font-bold text-sm md:text-base transition">
                         선수 초기화
                     </button>
-                    <button onclick="showCPHistory()" class="w-full border border-yellow-600/50 bg-gray-800 hover:bg-gray-700 text-yellow-500 py-3 rounded-xl font-bold text-sm transition">
+                    <button onclick="showCPHistory()" class="w-full border border-yellow-600/50 bg-gray-800 hover:bg-gray-700 text-yellow-500 py-2 rounded-xl font-bold text-xs md:text-sm transition">
                         센터패스 내역
                     </button>
-                    <button onclick="openFetchModal()" class="w-full border border-green-500 bg-green-900/60 hover:bg-green-800 text-green-200 py-3 rounded-xl font-bold text-sm transition shadow-[0_0_10px_rgba(34,197,94,0.3)] flex items-center justify-center gap-1">
-                        📥 명단 불러오기
-                    </button>
-                    <button onclick="openSubmitModal()" class="w-full border border-blue-500 bg-blue-900/60 hover:bg-blue-800 text-blue-200 py-3 rounded-xl font-bold text-sm transition shadow-[0_0_10px_rgba(59,130,246,0.3)] flex items-center justify-center gap-1">
-                        📡 결과 전송
+                    <button onclick="openFetchModal()" class="w-full border border-green-500 bg-green-900/60 hover:bg-green-800 text-green-200 py-2.5 rounded-xl font-bold text-xs md:text-sm transition shadow-[0_0_10px_rgba(34,197,94,0.3)] flex items-center justify-center gap-1">
+                        📥 명단/결과
                     </button>
                 </div>
 
                 <!-- TEAM B -->
-                <div id="score-box-B" class="score-box glass-panel rounded-3xl p-4 md:p-6 flex-1 flex flex-col items-center relative overflow-hidden shadow-2xl border-t-8 border-blue-500 transition-all duration-300">
-                    <div id="penalty-badge-B" class="hidden absolute top-4 left-4 bg-blue-600 text-white font-black px-3 py-1 rounded-lg border border-white shadow-lg text-sm md:text-base tracking-wider z-20">
+                <div id="score-box-B" class="score-box glass-panel rounded-3xl p-3 md:p-5 flex-1 flex flex-col items-center relative overflow-hidden shadow-2xl border-t-8 border-blue-500 transition-all duration-300">
+                    <div id="penalty-badge-B" class="hidden absolute top-3 left-3 bg-blue-600 text-white font-black px-2 py-1 rounded-lg border border-white shadow-lg text-xs md:text-sm tracking-wider z-20">
                         🚨 PENALTY
                     </div>
 
-                    <div class="flex gap-2 mb-2 justify-center z-20 relative">
-                        <button id="color-B-red" onclick="setTeamColor('B', 'red')" class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-red-500 border border-transparent hover:border-white transition-all"></button>
-                        <button id="color-B-blue" onclick="setTeamColor('B', 'blue')" class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-blue-500 border border-transparent hover:border-white transition-all"></button>
-                        <button id="color-B-yellow" onclick="setTeamColor('B', 'yellow')" class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-yellow-500 border border-transparent hover:border-white transition-all"></button>
-                        <button id="color-B-green" onclick="setTeamColor('B', 'green')" class="w-4 h-4 md:w-5 md:h-5 rounded-full bg-green-500 border border-transparent hover:border-white transition-all"></button>
+                    <div class="flex gap-2 mb-1 justify-center z-20 relative">
+                        <button id="color-B-red" onclick="setTeamColor('B', 'red')" class="w-4 h-4 rounded-full bg-red-500 border border-transparent hover:border-white transition-all"></button>
+                        <button id="color-B-blue" onclick="setTeamColor('B', 'blue')" class="w-4 h-4 rounded-full bg-blue-500 border border-transparent hover:border-white transition-all"></button>
+                        <button id="color-B-yellow" onclick="setTeamColor('B', 'yellow')" class="w-4 h-4 rounded-full bg-yellow-500 border border-transparent hover:border-white transition-all"></button>
+                        <button id="color-B-green" onclick="setTeamColor('B', 'green')" class="w-4 h-4 rounded-full bg-green-500 border border-transparent hover:border-white transition-all"></button>
                     </div>
 
-                    <input type="text" id="team-name-B" value="TEAM B" oninput="updateTeamName('B')" class="team-name-input text-blue-400 font-black text-5xl md:text-6xl mb-1 tracking-widest uppercase" spellcheck="false" autocomplete="off">
+                    <input type="text" id="team-name-B" value="TEAM B" oninput="updateTeamName('B')" class="team-name-input text-blue-400 font-black text-6xl md:text-7xl mb-1 tracking-widest uppercase" spellcheck="false" autocomplete="off">
                     
-                    <div class="warning-badge-container text-yellow-400 font-bold text-lg md:text-xl mb-2 bg-yellow-900/40 px-4 py-2 rounded-full border border-yellow-600/50 flex items-center gap-2 z-10 relative">
-                        <span>누적 경고:</span>
-                        <span id="team-warnings-B" class="text-white text-2xl md:text-3xl">0</span>
+                    <div class="warning-badge-container text-yellow-400 font-bold text-lg md:text-xl mb-1 bg-yellow-900/40 px-4 py-1.5 rounded-full border border-yellow-600/50 flex items-center gap-3 z-10 relative">
+                        <span>팀 경고:</span>
+                        <button onclick="changeTeamWarning('B', -1)" class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gray-800 text-white hover:bg-gray-700 flex items-center justify-center font-bold border border-gray-600">-</button>
+                        <span id="team-warnings-B" class="text-white text-3xl md:text-4xl min-w-[1.5rem] text-center">0</span>
+                        <button onclick="changeTeamWarning('B', 1)" class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-yellow-600 text-white hover:bg-yellow-500 flex items-center justify-center font-bold border border-yellow-400 shadow-md">+</button>
                     </div>
 
-                    <div id="score-B" class="text-[10rem] md:text-[14rem] font-black mb-4 tracking-tighter leading-none">0</div>
-                    <div class="score-btn-group flex gap-4 w-full">
-                        <button id="btn-minus-B" onclick="changeScore('B', -1)" class="flex-1 bg-blue-900/50 hover:bg-blue-800 text-blue-200 py-3 rounded-2xl font-bold text-4xl transition">-</button>
-                        <button id="btn-plus-B" onclick="changeScore('B', 1)" class="flex-[2] bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-2xl font-black text-5xl shadow-lg transition">+</button>
+                    <div id="score-B" class="text-[9rem] md:text-[16rem] font-black mb-2 tracking-tighter leading-none">0</div>
+                    
+                    <div class="score-btn-group flex gap-3 w-full">
+                        <button id="btn-minus-B" onclick="changeScore('B', -1)" class="flex-1 bg-blue-900/50 hover:bg-blue-800 text-blue-200 py-2 md:py-3 rounded-2xl font-bold text-4xl transition">-</button>
+                        <button id="btn-plus-B" onclick="changeScore('B', 1)" class="flex-[2] bg-blue-600 hover:bg-blue-500 text-white py-2 md:py-3 rounded-2xl font-black text-5xl md:text-6xl shadow-lg transition">+</button>
                     </div>
-                    <button id="cp-B" onclick="setCenterPass('B')" class="w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest flex items-center justify-center">
+                    <button id="cp-B" onclick="setCenterPass('B')" class="w-full mt-3 bg-gray-800 border-2 border-gray-600 text-gray-400 py-3 md:py-4 rounded-xl font-black text-lg md:text-xl transition uppercase tracking-widest flex items-center justify-center">
                         Center Pass
                     </button>
                 </div>
@@ -421,6 +436,15 @@
 
         <!-- ================= PAGE 2 : 출전 선수 명단 뷰 ================= -->
         <div id="view-roster" class="slide-view flex flex-col items-center relative w-full">
+            <div class="w-full max-w-[95%] flex justify-between items-center mb-3">
+                <button id="btn-warning-mode" onclick="toggleWarningMode()" class="bg-gray-800 hover:bg-yellow-600 text-gray-300 hover:text-white font-bold py-2 px-4 rounded-xl transition border border-gray-600 shadow-md text-sm md:text-base">
+                    🟨 선수 경고 부여 (OFF)
+                </button>
+                <button onclick="showConfirm('팀 경고를 포함한 양 팀의 모든 경고 기록을 초기화하시겠습니까?', resetWarnings)" class="bg-gray-800 hover:bg-red-600 text-gray-300 hover:text-white font-bold py-2 px-4 rounded-xl transition border border-gray-600 shadow-md text-sm md:text-base">
+                    🧹 경고 전체 초기화
+                </button>
+            </div>
+            
             <div class="roster-section w-full max-w-[95%] flex flex-col md:flex-row gap-6">
                 <!-- TEAM A 로스터 -->
                 <div class="flex-1 glass-panel rounded-2xl p-4">
@@ -476,70 +500,14 @@
         </div>
     </div>
 
-    <!-- 결과 전송 모달 -->
-    <div id="submit-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-        <div class="bg-gray-800 border border-gray-600 rounded-2xl p-6 max-w-md w-full shadow-2xl">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-black text-blue-400">📡 경기 결과 서버 전송</h2>
-                <button onclick="closeSubmitModal()" class="text-gray-400 hover:text-white font-bold text-xl">&times;</button>
-            </div>
-            <p class="text-sm text-gray-300 mb-4">입력된 점수와 선수 출전 기록을 리그 대진표로 전송합니다.</p>
-            <div class="space-y-3 mb-6">
-                <div class="flex gap-2 mb-2">
-                    <div class="flex-1 bg-gray-700/50 text-gray-300 rounded p-2 border border-gray-600 text-center text-sm font-bold">3학년</div>
-                    <div class="flex-1 bg-gray-700/50 text-gray-300 rounded p-2 border border-gray-600 text-center text-sm font-bold">넷볼</div>
-                </div>
-                <div>
-                    <label class="block text-xs text-gray-400 mb-2">경기 조 선택</label>
-                    <div class="flex gap-3">
-                        <button type="button" id="btn-group-A" onclick="setSubmitGroup('A')" class="flex-1 bg-blue-600 text-white rounded-xl p-3 font-black border-2 border-blue-400 shadow-lg transition">A조</button>
-                        <button type="button" id="btn-group-B" onclick="setSubmitGroup('B')" class="flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition">B조</button>
-                    </div>
-                    <input type="hidden" id="submit-group" value="A">
-                </div>
-                <div class="pt-2">
-                    <label class="block text-xs text-gray-400 mb-1">경기 일자 (기본: 오늘)</label>
-                    <input type="date" id="submit-date" class="w-full bg-gray-700 text-white rounded-xl p-3 border border-gray-600 outline-none">
-                </div>
-                <div class="flex gap-2">
-                    <div class="flex-1">
-                        <label class="block text-xs text-red-400 mb-1">A팀 선택</label>
-                        <select id="submit-teamA" class="w-full bg-gray-700 text-white rounded-xl p-2 border border-gray-600 outline-none text-center font-bold appearance-none">
-                            <option value="1반">1반</option><option value="2반">2반</option>
-                            <option value="3반">3반</option><option value="4반">4반</option>
-                            <option value="5반">5반</option><option value="6반">6반</option>
-                            <option value="7반">7반</option><option value="8반">8반</option>
-                            <option value="9반">9반</option><option value="10반">10반</option>
-                            <option value="11반">11반</option><option value="12반">12반</option>
-                        </select>
-                    </div>
-                    <div class="flex-1">
-                        <label class="block text-xs text-blue-400 mb-1">B팀 선택</label>
-                        <select id="submit-teamB" class="w-full bg-gray-700 text-white rounded-xl p-2 border border-gray-600 outline-none text-center font-bold appearance-none">
-                            <option value="1반">1반</option><option value="2반">2반</option>
-                            <option value="3반">3반</option><option value="4반">4반</option>
-                            <option value="5반">5반</option><option value="6반">6반</option>
-                            <option value="7반">7반</option><option value="8반">8반</option>
-                            <option value="9반">9반</option><option value="10반">10반</option>
-                            <option value="11반">11반</option><option value="12반">12반</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <button id="btn-submit-data" onclick="submitMatchResult()" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold transition shadow-lg text-lg flex justify-center items-center gap-2">
-                🚀 서버로 전송하기
-            </button>
-        </div>
-    </div>
-
-    <!-- 명단 불러오기 모달 -->
+    <!-- 명단 불러오기 & 결과 전송 통합 모달 -->
     <div id="fetch-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-gray-800 border border-gray-600 rounded-2xl p-6 max-w-md w-full shadow-2xl">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-black text-green-400">📥 출전 명단 연동</h2>
+                <h2 class="text-xl font-black text-green-400">📥 구글 시트 연동</h2>
                 <button onclick="closeFetchModal()" class="text-gray-400 hover:text-white font-bold text-xl">&times;</button>
             </div>
-            <p class="text-sm text-gray-300 mb-4">리그 대진표에서 체크된 출전 명단을 전광판으로 불러옵니다.</p>
+            <p class="text-sm text-gray-300 mb-4">리그 대진표와 데이터를 양방향으로 연동합니다.</p>
             <div class="space-y-3 mb-6">
                 <div>
                     <label class="block text-xs text-gray-400 mb-2">경기 조 선택</label>
@@ -556,7 +524,7 @@
                 <div class="flex gap-2">
                     <div class="flex-1">
                         <label class="block text-xs text-red-400 mb-1">A팀 선택</label>
-                        <select id="fetch-teamA" class="w-full bg-gray-700 text-white rounded-xl p-2 border border-gray-600 outline-none text-center font-bold appearance-none">
+                        <select id="fetch-teamA" class="w-full bg-gray-700 text-white rounded-xl p-2 border border-gray-600 outline-none text-center font-bold appearance-none cursor-pointer">
                             <option value="1반">1반</option><option value="2반">2반</option>
                             <option value="3반">3반</option><option value="4반">4반</option>
                             <option value="5반">5반</option><option value="6반">6반</option>
@@ -567,7 +535,7 @@
                     </div>
                     <div class="flex-1">
                         <label class="block text-xs text-blue-400 mb-1">B팀 선택</label>
-                        <select id="fetch-teamB" class="w-full bg-gray-700 text-white rounded-xl p-2 border border-gray-600 outline-none text-center font-bold appearance-none">
+                        <select id="fetch-teamB" class="w-full bg-gray-700 text-white rounded-xl p-2 border border-gray-600 outline-none text-center font-bold appearance-none cursor-pointer">
                             <option value="1반">1반</option><option value="2반">2반</option>
                             <option value="3반">3반</option><option value="4반">4반</option>
                             <option value="5반">5반</option><option value="6반">6반</option>
@@ -578,16 +546,21 @@
                     </div>
                 </div>
             </div>
-            <button id="btn-fetch-data" onclick="fetchRosterData()" class="w-full bg-green-600 hover:bg-green-500 text-white py-3 rounded-xl font-bold transition shadow-lg text-lg flex justify-center items-center gap-2">
-                🔄 데이터 불러오기
-            </button>
+            <div class="flex gap-3">
+                <button id="btn-fetch-data" onclick="fetchRosterData()" class="flex-1 bg-green-600 hover:bg-green-500 text-white py-3 rounded-xl font-bold transition shadow-lg flex justify-center items-center gap-1">
+                    📥 출전 불러오기
+                </button>
+                <button id="btn-submit-data" onclick="submitMatchResult()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold transition shadow-lg flex justify-center items-center gap-1">
+                    📡 결과 저장하기
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
         // ==========================================================
-        // ★ [매우 중요] 아래에 선생님의 개인 구글 계정 웹앱 주소를 넣으세요! ★
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzzOfjEHorOP-vLGzF5zlfxgohLLBNk4esYASqOWIfcGj-shMfjJERGDkZJTHQJDnAw/exec'; 
+        // ★ [매우 중요] 아래에 선생님의 '개인 계정' 웹앱 주소를 넣으세요! ★
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz4J5x-x1KzX1jD2eE4F3aH6G7B8I9C0A1B2C3D4E5F6G7H8I9J0K1L2M3N4O5P6Q7/exec'; 
         // ==========================================================
 
         const teamColorThemes = {
@@ -603,9 +576,11 @@
         let isRunning = false;
         
         let scores = { A: 0, B: 0 };
-        let currentQuarter = 1;
+        let currentQuarter = 1; // 1~3 까지만 순환
         let centerPassTeam = 'A';
         
+        let isWarningMode = false;
+
         let cpHistory = []; 
         let confirmCallback = null; 
 
@@ -631,16 +606,12 @@
         initPlayersData();
 
         window.onload = function() {
-            updateColorPickerUI('A');
-            updateColorPickerUI('B');
-            renderRoster('A');
-            renderRoster('B');
+            updateColorPickerUI('A'); updateColorPickerUI('B');
+            renderRoster('A'); renderRoster('B');
             updateTimerDisplay();
-            updatePlayerCount('A');
-            updatePlayerCount('B');
+            updatePlayerCount('A'); updatePlayerCount('B');
             updateCenterPassDisplay();
-            updateWarningUI('A');
-            updateWarningUI('B');
+            updateWarningUI('A'); updateWarningUI('B');
         };
 
         function toggleFullScreen() {
@@ -656,70 +627,46 @@
         }
 
         function setTeamColor(team, newColor) {
-            const oldColor = currentColors[team];
-            const oldTheme = teamColorThemes[oldColor];
+            const oldTheme = teamColorThemes[currentColors[team]];
             const newTheme = teamColorThemes[newColor];
-            
             currentColors[team] = newColor;
 
             const scoreBox = document.getElementById(`score-box-${team}`);
-            scoreBox.classList.remove(oldTheme.boxBorder);
-            scoreBox.classList.add(newTheme.boxBorder);
-
+            scoreBox.classList.remove(oldTheme.boxBorder); scoreBox.classList.add(newTheme.boxBorder);
+            
             const teamNameInput = document.getElementById(`team-name-${team}`);
-            teamNameInput.classList.remove(oldTheme.nameText);
-            teamNameInput.classList.add(newTheme.nameText);
+            teamNameInput.classList.remove(oldTheme.nameText); teamNameInput.classList.add(newTheme.nameText);
 
-            const minusBtn = document.getElementById(`btn-minus-${team}`);
-            minusBtn.classList.remove(...oldTheme.minusBtn);
-            minusBtn.classList.add(...newTheme.minusBtn);
-
-            const plusBtn = document.getElementById(`btn-plus-${team}`);
-            plusBtn.classList.remove(...oldTheme.plusBtn);
-            plusBtn.classList.add(...newTheme.plusBtn);
-
-            const penaltyBadge = document.getElementById(`penalty-badge-${team}`);
-            penaltyBadge.classList.remove(oldTheme.penaltyBadge);
-            penaltyBadge.classList.add(newTheme.penaltyBadge);
-
-            const rosterTitle = document.getElementById(`roster-title-${team}`);
-            rosterTitle.classList.remove(oldTheme.nameText);
-            rosterTitle.classList.add(newTheme.nameText);
-
-            const rosterCountBg = document.getElementById(`count-bg-${team}`);
-            rosterCountBg.classList.remove(...oldTheme.rosterCountBg);
-            rosterCountBg.classList.add(...newTheme.rosterCountBg);
+            document.getElementById(`btn-minus-${team}`).className = `flex-1 py-2 md:py-3 rounded-2xl font-bold text-4xl transition ${newTheme.minusBtn.join(' ')}`;
+            document.getElementById(`btn-plus-${team}`).className = `flex-[2] text-white py-2 md:py-3 rounded-2xl font-black text-5xl md:text-6xl shadow-lg transition ${newTheme.plusBtn.join(' ')}`;
+            
+            document.getElementById(`penalty-badge-${team}`).className = `hidden absolute top-3 left-3 text-white font-black px-2 py-1 rounded-lg border border-white shadow-lg text-xs md:text-sm tracking-wider z-20 ${newTheme.penaltyBadge}`;
+            
+            document.getElementById(`roster-title-${team}`).className = `text-xl font-black ${newTheme.nameText}`;
+            document.getElementById(`count-bg-${team}`).className = `text-sm font-bold text-gray-200 px-3 py-1 rounded-lg border ${newTheme.rosterCountBg.join(' ')}`;
 
             for(let i=1; i<=15; i++) updatePlayerUI(team, i);
             updateColorPickerUI(team);
         }
 
         function updateColorPickerUI(team) {
-            const colors = ['red', 'blue', 'yellow', 'green'];
-            colors.forEach(c => {
+            ['red', 'blue', 'yellow', 'green'].forEach(c => {
                 const btn = document.getElementById(`color-${team}-${c}`);
-                if (c === currentColors[team]) {
-                    btn.classList.add('ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-gray-800');
-                } else {
-                    btn.classList.remove('ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-gray-800');
-                }
+                if (c === currentColors[team]) btn.classList.add('ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-gray-800');
+                else btn.classList.remove('ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-gray-800');
             });
         }
 
         function updateTeamName(team) {
-            const inputElement = document.getElementById(`team-name-${team}`);
-            let newName = inputElement.value;
+            let newName = document.getElementById(`team-name-${team}`).value;
             if(newName.trim() === '') newName = `TEAM ${team}`;
-            
             teamNames[team] = newName.toUpperCase();
             document.getElementById(`roster-title-${team}`).innerText = `${teamNames[team]} 출전 명단`;
         }
 
         function changeScore(team, amount) {
-            scores[team] += amount;
-            if (scores[team] < 0) scores[team] = 0;
+            scores[team] = Math.max(0, scores[team] + amount);
             document.getElementById(`score-${team}`).innerText = scores[team];
-
             if (amount > 0) toggleCenterPass();
         }
 
@@ -742,19 +689,17 @@
         }
 
         function updateCenterPassDisplay() {
-            const btnA = document.getElementById('cp-A');
-            const btnB = document.getElementById('cp-B');
+            const btnA = document.getElementById('cp-A'); const btnB = document.getElementById('cp-B');
+            const defaultClass = 'w-full mt-3 bg-gray-800 border-2 border-gray-600 text-gray-400 py-3 md:py-4 rounded-xl font-black text-lg md:text-xl transition uppercase tracking-widest flex items-center justify-center';
             
-            btnA.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest flex items-center justify-center';
-            btnB.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest flex items-center justify-center';
-            btnA.innerHTML = 'Center Pass';
-            btnB.innerHTML = 'Center Pass';
+            btnA.className = defaultClass; btnB.className = defaultClass;
+            btnA.innerHTML = 'Center Pass'; btnB.innerHTML = 'Center Pass';
 
             const activeBtn = (centerPassTeam === 'A') ? btnA : btnB;
             activeBtn.classList.add('center-pass-active');
             
-            if (!isRunning && timeRemaining === (parseInt(document.getElementById('time-input').value) || 12) * 60 && currentQuarter <= 3) {
-                activeBtn.innerHTML = `CENTER PASS <span class="text-base font-black bg-red-600 text-white px-3 py-1 rounded-lg ml-2 animate-pulse shadow-lg">${currentQuarter} Quarter 시작~!</span>`;
+            if (!isRunning && timeRemaining === (parseInt(document.getElementById('time-input').value) || 12) * 60) {
+                activeBtn.innerHTML = `CENTER PASS <span class="text-xs md:text-sm font-black bg-red-600 text-white px-2 py-1 rounded ml-2 animate-pulse shadow-lg">${currentQuarter} Quarter 시작!</span>`;
             }
         }
 
@@ -771,8 +716,7 @@
 
         function adjustTime(seconds) {
             if (isRunning) return; 
-            timeRemaining += seconds;
-            if (timeRemaining < 0) timeRemaining = 0;
+            timeRemaining = Math.max(0, timeRemaining + seconds);
             updateTimerDisplay();
         }
 
@@ -780,18 +724,13 @@
             try {
                 if (typeof Tone !== 'undefined') {
                     if (!buzzerSynth) {
-                        buzzerSynth = new Tone.Synth({
-                            oscillator: { type: "square" },
-                            envelope: { attack: 0.01, decay: 0.1, sustain: 1, release: 0.5 }
-                        }).toDestination();
+                        buzzerSynth = new Tone.Synth({ oscillator: { type: "square" }, envelope: { attack: 0.01, decay: 0.1, sustain: 1, release: 0.5 } }).toDestination();
                         buzzerSynth.volume.value = -8; 
                     }
-                    if (Tone.context.state !== 'running') {
-                        await Tone.start();
-                    }
+                    if (Tone.context.state !== 'running') await Tone.start();
                     buzzerSynth.triggerAttackRelease("G2", 3);
                 }
-            } catch (err) { console.error("오디오 재생 오류:", err); }
+            } catch (err) { console.error("오디오 에러:", err); }
         }
 
         function toggleTimer() {
@@ -801,18 +740,14 @@
             if (isRunning) {
                 clearInterval(timerInterval);
                 btn.innerText = '계속';
-                btn.className = 'w-full bg-yellow-600 hover:bg-yellow-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg';
+                btn.className = 'w-full bg-yellow-600 hover:bg-yellow-500 text-white py-3 rounded-xl font-black text-lg transition shadow-lg';
                 adjustBtns.forEach(el => el.classList.remove('opacity-0', 'pointer-events-none'));
             } else {
                 if (timeRemaining <= 0) return;
-
-                if (typeof Tone !== 'undefined' && Tone.context.state !== 'running') {
-                    Tone.start().catch(err => console.error(err));
-                }
+                if (typeof Tone !== 'undefined' && Tone.context.state !== 'running') Tone.start().catch(e => console.log(e));
 
                 const activeBtn = (centerPassTeam === 'A') ? document.getElementById('cp-A') : document.getElementById('cp-B');
                 activeBtn.innerHTML = 'Center Pass';
-
                 adjustBtns.forEach(el => el.classList.add('opacity-0', 'pointer-events-none'));
                 
                 timerInterval = setInterval(() => {
@@ -824,18 +759,14 @@
                         isRunning = false;
                         btn.innerText = '종료';
                         adjustBtns.forEach(el => el.classList.remove('opacity-0', 'pointer-events-none'));
-                        
                         playBuzzer();
 
                         setTimeout(() => {
                             if(timeRemaining <= 0 && !isRunning) {
-                                currentQuarter++;
-                                if (currentQuarter > 3) currentQuarter = 1;
+                                currentQuarter = currentQuarter >= 3 ? 1 : currentQuarter + 1; // 3쿼터까지만 순환
                                 document.getElementById('quarter-display').innerText = `${currentQuarter} Quarter`;
                                 
-                                for(let i=1; i<=15; i++) {
-                                    updatePlayerUI('A', i); updatePlayerUI('B', i);
-                                }
+                                for(let i=1; i<=15; i++) { updatePlayerUI('A', i); updatePlayerUI('B', i); }
                                 updatePlayerCount('A'); updatePlayerCount('B');
 
                                 centerPassTeam = (centerPassTeam === 'A') ? 'B' : 'A';
@@ -843,7 +774,7 @@
                                 
                                 setTime();
                                 btn.innerText = '시작';
-                                btn.className = 'w-full bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg';
+                                btn.className = 'w-full bg-green-600 hover:bg-green-500 text-white py-3 rounded-xl font-black text-lg transition shadow-lg';
                                 updateCenterPassDisplay(); 
                             }
                         }, 1000); 
@@ -851,7 +782,7 @@
                 }, 1000);
                 
                 btn.innerText = '일시정지';
-                btn.className = 'w-full bg-red-600 hover:bg-red-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg';
+                btn.className = 'w-full bg-red-600 hover:bg-red-500 text-white py-3 rounded-xl font-black text-lg transition shadow-lg';
             }
             isRunning = !isRunning;
         }
@@ -862,7 +793,7 @@
             setTime(); 
             const btn = document.getElementById('btn-start');
             btn.innerText = '시작';
-            btn.className = 'w-full bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg';
+            btn.className = 'w-full bg-green-600 hover:bg-green-500 text-white py-3 rounded-xl font-black text-lg transition shadow-lg';
             document.querySelectorAll('.time-adjust-btns').forEach(el => el.classList.remove('opacity-0', 'pointer-events-none'));
             updateCenterPassDisplay();
         }
@@ -874,24 +805,54 @@
         }
 
         function nextQuarter() {
-            currentQuarter++;
-            if (currentQuarter > 3) currentQuarter = 1; 
+            currentQuarter = currentQuarter >= 3 ? 1 : currentQuarter + 1; // 3쿼터까지만
             updateQuarterUI();
         }
 
         function prevQuarter() {
-            currentQuarter--;
-            if (currentQuarter < 1) currentQuarter = 3;
+            currentQuarter = currentQuarter <= 1 ? 3 : currentQuarter - 1; // 3쿼터까지만
             updateQuarterUI();
         }
 
         function updateQuarterUI() {
             document.getElementById('quarter-display').innerText = `${currentQuarter} Quarter`;
-            for(let i=1; i<=15; i++) {
-                updatePlayerUI('A', i); updatePlayerUI('B', i);
-            }
+            for(let i=1; i<=15; i++) { updatePlayerUI('A', i); updatePlayerUI('B', i); }
             updatePlayerCount('A'); updatePlayerCount('B');
             resetTimer(); 
+        }
+
+        function toggleWarningMode() {
+            isWarningMode = !isWarningMode;
+            const btn = document.getElementById('btn-warning-mode');
+            if (isWarningMode) {
+                btn.classList.replace('bg-gray-800', 'bg-yellow-500');
+                btn.classList.replace('text-gray-300', 'text-black');
+                btn.innerHTML = '🟨 선수 경고 부여 (ON) - 선수를 클릭하세요';
+                btn.classList.add('animate-pulse');
+            } else {
+                btn.classList.replace('bg-yellow-500', 'bg-gray-800');
+                btn.classList.replace('text-black', 'text-gray-300');
+                btn.innerHTML = '🟨 선수 경고 부여 (OFF)';
+                btn.classList.remove('animate-pulse');
+            }
+        }
+
+        function changeTeamWarning(team, amount) {
+            teamWarnings[team] = Math.max(0, teamWarnings[team] + amount);
+            updateWarningUI(team);
+        }
+
+        function resetWarnings() {
+            for (let i = 1; i <= 15; i++) {
+                warnings.A[i] = 0;
+                warnings.B[i] = 0;
+                updatePlayerUI('A', i);
+                updatePlayerUI('B', i);
+            }
+            teamWarnings.A = 0;
+            teamWarnings.B = 0;
+            updateWarningUI('A');
+            updateWarningUI('B');
         }
 
         function renderRoster(team) {
@@ -911,16 +872,20 @@
                 badgeContainer.id = `badges-${team}-${i}`;
                 badgeContainer.className = 'badge-container';
 
-                const warningBtn = document.createElement('button');
-                warningBtn.id = `warning-${team}-${i}`;
-                warningBtn.className = 'absolute -bottom-1 -right-1 bg-yellow-400 text-black text-[0.65rem] font-black px-1 rounded border border-gray-800 shadow-md z-20 hover:bg-yellow-300 transition-transform active:scale-90';
-                warningBtn.innerHTML = warnings[team][i] > 0 ? `🟨${warnings[team][i]}` : '🟨';
-                warningBtn.onclick = (e) => {
+                const warningDisplay = document.createElement('div');
+                warningDisplay.id = `warning-${team}-${i}`;
+                warningDisplay.className = 'absolute -bottom-1 -right-1 bg-yellow-400 text-black text-[0.65rem] font-black px-1.5 py-0.5 rounded border border-gray-800 shadow-md z-20 hidden cursor-pointer hover:bg-yellow-300 transition-transform active:scale-90';
+                warningDisplay.onclick = (e) => { 
                     e.stopPropagation(); 
-                    addWarning(team, i);
+                    if (isWarningMode && warnings[team][i] > 0) {
+                        warnings[team][i]--;
+                        teamWarnings[team] = Math.max(0, teamWarnings[team] - 1);
+                        updatePlayerUI(team, i);
+                        updateWarningUI(team);
+                    }
                 };
 
-                wrapper.appendChild(btn); wrapper.appendChild(badgeContainer); wrapper.appendChild(warningBtn);
+                wrapper.appendChild(btn); wrapper.appendChild(badgeContainer); wrapper.appendChild(warningDisplay);
                 container.appendChild(wrapper);
                 updatePlayerUI(team, i);
             }
@@ -929,7 +894,7 @@
         function addWarning(team, id) {
             warnings[team][id]++;
             teamWarnings[team]++;
-            document.getElementById(`warning-${team}-${id}`).innerHTML = `🟨${warnings[team][id]}`;
+            updatePlayerUI(team, id);
             updateWarningUI(team);
         }
 
@@ -950,16 +915,21 @@
         }
 
         function togglePlayer(team, id) {
-            const record = players[team][id];
-            const index = record.indexOf(currentQuarter);
-            if (index === -1) { record.push(currentQuarter); record.sort(); } 
-            else { record.splice(index, 1); }
-            updatePlayerUI(team, id); updatePlayerCount(team);
+            if (isWarningMode) {
+                addWarning(team, id);
+            } else {
+                const record = players[team][id];
+                const index = record.indexOf(currentQuarter);
+                if (index === -1) { record.push(currentQuarter); record.sort(); } 
+                else { record.splice(index, 1); }
+                updatePlayerUI(team, id); updatePlayerCount(team);
+            }
         }
 
         function updatePlayerUI(team, id) {
             const btn = document.getElementById(`btn-${team}-${id}`);
             const badgeContainer = document.getElementById(`badges-${team}-${id}`);
+            const warningDisplay = document.getElementById(`warning-${team}-${id}`);
             const record = players[team][id];
             
             btn.classList.remove('active-red', 'active-blue', 'active-yellow', 'active-green');
@@ -967,19 +937,24 @@
 
             badgeContainer.innerHTML = '';
             record.forEach(q => {
-                if (q > 3) return; // 4쿼터 뱃지 생성 방지
+                if (q > 3) return; // 4쿼터 뱃지 원천 차단
                 const badge = document.createElement('div');
                 badge.className = `quarter-badge badge-q${q}`;
                 badge.innerText = q;
                 badgeContainer.appendChild(badge);
             });
+
+            if (warnings[team][id] > 0) {
+                warningDisplay.innerHTML = warnings[team][id] > 1 ? `🟨${warnings[team][id]}` : '🟨';
+                warningDisplay.classList.remove('hidden');
+            } else {
+                warningDisplay.classList.add('hidden');
+            }
         }
 
         function updatePlayerCount(team) {
             let count = 0;
-            for (let i = 1; i <= 15; i++) {
-                if (players[team][i].includes(currentQuarter)) count++;
-            }
+            for (let i = 1; i <= 15; i++) if (players[team][i].includes(currentQuarter)) count++;
             document.getElementById(`count-${team}`).innerText = count;
         }
 
@@ -995,16 +970,8 @@
             confirmCallback = callback;
             document.getElementById('confirm-modal').classList.remove('hidden');
         }
-
-        function closeConfirm() {
-            document.getElementById('confirm-modal').classList.add('hidden');
-            confirmCallback = null;
-        }
-
-        function executeConfirm() {
-            if (confirmCallback) confirmCallback();
-            closeConfirm();
-        }
+        function closeConfirm() { document.getElementById('confirm-modal').classList.add('hidden'); confirmCallback = null; }
+        function executeConfirm() { if (confirmCallback) confirmCallback(); closeConfirm(); }
 
         function recordCPHistory(team) {
             const m = Math.floor(timeRemaining / 60); const s = timeRemaining % 60;
@@ -1015,154 +982,45 @@
         function showCPHistory() {
             const ul = document.getElementById('cp-history-list');
             ul.innerHTML = '';
-            if (cpHistory.length === 0) {
-                ul.innerHTML = '<li class="text-gray-500 text-center py-4">기록이 없습니다.</li>';
-            } else {
+            if (cpHistory.length === 0) { ul.innerHTML = '<li class="text-gray-500 text-center py-4">기록이 없습니다.</li>'; } 
+            else {
                 cpHistory.forEach(h => {
                     const li = document.createElement('li');
                     li.className = 'bg-gray-700 p-3 rounded-lg border border-gray-600 font-bold';
-                    li.innerText = h;
-                    ul.appendChild(li);
+                    li.innerText = h; ul.appendChild(li);
                 });
             }
             document.getElementById('cphistory-modal').classList.remove('hidden');
         }
+        function closeCPHistory() { document.getElementById('cphistory-modal').classList.add('hidden'); }
 
-        function closeCPHistory() {
-            document.getElementById('cphistory-modal').classList.add('hidden');
-        }
-
-        // --- 경기 결과 전송 (Submit) 로직 ---
-        function openSubmitModal() {
-            document.getElementById('submit-date').value = getTodayDateString();
-            
-            const selA = document.getElementById('submit-teamA');
-            const selB = document.getElementById('submit-teamB');
-            if(Array.from(selA.options).some(opt => opt.value === teamNames.A)) selA.value = teamNames.A;
-            if(Array.from(selB.options).some(opt => opt.value === teamNames.B)) selB.value = teamNames.B;
-
-            document.getElementById('submit-modal').classList.remove('hidden');
-        }
-
-        function closeSubmitModal() {
-            document.getElementById('submit-modal').classList.add('hidden');
-        }
-
-        function setSubmitGroup(group) {
-            document.getElementById('submit-group').value = group;
-            document.getElementById('btn-group-A').className = group === 'A' ? 'flex-1 bg-blue-600 text-white rounded-xl p-3 font-black border-2 border-blue-400 shadow-lg transition' : 'flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition';
-            document.getElementById('btn-group-B').className = group === 'B' ? 'flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition' : 'flex-1 bg-blue-600 text-white rounded-xl p-3 font-black border-2 border-blue-400 shadow-lg transition';
-        }
-
-        function submitMatchResult() {
-            const group = document.getElementById('submit-group').value;
-            const date = document.getElementById('submit-date').value;
-            const teamA = document.getElementById('submit-teamA').value;
-            const teamB = document.getElementById('submit-teamB').value;
-
-            if (teamA === teamB) {
-                alert("A팀과 B팀의 이름이 같을 수 없습니다."); return;
-            }
-
-            // 전광판 출전 기록 변환 (1Q=A팀, 2Q=B팀, 3Q=C팀)
-            let playerDetails = [];
-            Object.keys(players.A).forEach(num => {
-                if (players.A[num].includes(1)) playerDetails.push({ team: teamA, subTeam: 'A팀', num: num, name: num+"번", isAttended: true, card: 'none' });
-                if (players.A[num].includes(2)) playerDetails.push({ team: teamA, subTeam: 'B팀', num: num, name: num+"번", isAttended: true, card: 'none' });
-                if (players.A[num].includes(3)) playerDetails.push({ team: teamA, subTeam: 'C팀', num: num, name: num+"번", isAttended: true, card: 'none' });
-            });
-            Object.keys(players.B).forEach(num => {
-                if (players.B[num].includes(1)) playerDetails.push({ team: teamB, subTeam: 'A팀', num: num, name: num+"번", isAttended: true, card: 'none' });
-                if (players.B[num].includes(2)) playerDetails.push({ team: teamB, subTeam: 'B팀', num: num, name: num+"번", isAttended: true, card: 'none' });
-                if (players.B[num].includes(3)) playerDetails.push({ team: teamB, subTeam: 'C팀', num: num, name: num+"번", isAttended: true, card: 'none' });
-            });
-
-            const payload = {
-                action: 'saveScore',
-                grade: '3',
-                matchData: {
-                    group: group,
-                    date: date,
-                    sport: '넷볼',
-                    teamA: teamA,
-                    teamB: teamB,
-                    scoreA: scores.A,
-                    scoreB: scores.B,
-                    teamA_warnings: teamWarnings.A,
-                    teamB_warnings: teamWarnings.B,
-                    playerDetails: playerDetails
-                }
-            };
-
-            const submitBtn = document.getElementById('btn-submit-data');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = "📡 전송 중...";
-
-            // CORS 문제 방지를 위해 text/plain 으로 우회 전송
-            fetch(WEB_APP_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(payload)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("✅ 경기 결과와 선수 출전 기록이 대진표로 성공적으로 전송되었습니다!");
-                    closeSubmitModal();
-                } else {
-                    alert("❌ 전송 실패: " + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("❌ 서버 연결 실패. 스크립트 상단의 웹앱 주소(WEB_APP_URL)가 올바른지 확인해주세요.");
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = "🚀 서버로 전송하기";
-            });
-        }
-
-        // --- 출전 명단 불러오기 (Fetch) 로직 ---
+        // --- 명단 불러오기 & 결과 전송 모달 연동 로직 ---
         function openFetchModal() {
             document.getElementById('fetch-date').value = getTodayDateString();
-
-            const selA = document.getElementById('fetch-teamA');
-            const selB = document.getElementById('fetch-teamB');
-            if(Array.from(selA.options).some(opt => opt.value === teamNames.A)) selA.value = teamNames.A;
-            if(Array.from(selB.options).some(opt => opt.value === teamNames.B)) selB.value = teamNames.B;
-
             document.getElementById('fetch-modal').classList.remove('hidden');
         }
-
-        function closeFetchModal() {
-            document.getElementById('fetch-modal').classList.add('hidden');
-        }
-
+        function closeFetchModal() { document.getElementById('fetch-modal').classList.add('hidden'); }
+        
         function setFetchGroup(group) {
             document.getElementById('fetch-group').value = group;
             document.getElementById('btn-fetch-group-A').className = group === 'A' ? 'flex-1 bg-green-600 text-white rounded-xl p-3 font-black border-2 border-green-400 shadow-lg transition' : 'flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition';
             document.getElementById('btn-fetch-group-B').className = group === 'B' ? 'flex-1 bg-green-600 text-white rounded-xl p-3 font-black border-2 border-green-400 shadow-lg transition' : 'flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition';
         }
 
+        // 📥 명단 불러오기
         function fetchRosterData() {
             const group = document.getElementById('fetch-group').value;
             const date = document.getElementById('fetch-date').value;
             const teamA = document.getElementById('fetch-teamA').value;
             const teamB = document.getElementById('fetch-teamB').value;
 
-            const payload = {
-                action: 'fetchRoster',
-                grade: '3',
-                group: group,
-                date: date,
-                teamA: teamA,
-                teamB: teamB
-            };
+            if(!WEB_APP_URL || WEB_APP_URL.includes("선생님의_개인계정_주소")) {
+                alert("코드 맨 아래에 있는 WEB_APP_URL에 선생님의 개인 구글 웹앱 주소를 넣어주세요!"); return;
+            }
 
+            const payload = { action: 'fetchRoster', grade: '3', group: group, date: date, teamA: teamA, teamB: teamB };
             const fetchBtn = document.getElementById('btn-fetch-data');
-            fetchBtn.disabled = true;
-            fetchBtn.innerHTML = "🔄 데이터를 가져오는 중...";
+            fetchBtn.disabled = true; fetchBtn.innerHTML = "🔄 로딩중...";
 
             fetch(WEB_APP_URL, {
                 method: 'POST',
@@ -1185,7 +1043,6 @@
                             }
                         });
                     }
-                    
                     if(data.teamB) {
                         Object.keys(data.teamB).forEach(num => {
                             let n = parseInt(num);
@@ -1200,21 +1057,59 @@
 
                     renderRoster('A'); renderRoster('B');
                     updatePlayerCount('A'); updatePlayerCount('B');
-
-                    alert("✅ 출전 명단을 쿼터별로 정확하게 매핑하여 불러왔습니다!");
+                    alert("✅ 출전 명단을 3쿼터에 맞게 완벽하게 불러왔습니다!");
                     closeFetchModal();
-                } else {
-                    alert("❌ 명단 불러오기 실패: " + data.message);
-                }
+                } else alert("❌ 명단 불러오기 실패: " + data.message);
             })
-            .catch(error => {
-                console.error('Fetch Error:', error);
-                alert("서버 연결에 실패했습니다. 스크립트 상단의 웹앱 주소(WEB_APP_URL)가 정확한지 확인해주세요.");
-            })
-            .finally(() => {
-                fetchBtn.disabled = false;
-                fetchBtn.innerHTML = "🔄 데이터 불러오기";
+            .catch(error => { alert("❌ 서버 연결 실패! 주소(WEB_APP_URL) 확인 및 개인 계정 배포 여부를 확인하세요."); })
+            .finally(() => { fetchBtn.disabled = false; fetchBtn.innerHTML = "📥 출전 불러오기"; });
+        }
+
+        // 📡 결과 전송하기
+        function submitMatchResult() {
+            const group = document.getElementById('fetch-group').value;
+            const date = document.getElementById('fetch-date').value;
+            const teamA = document.getElementById('fetch-teamA').value;
+            const teamB = document.getElementById('fetch-teamB').value;
+
+            if (teamA === teamB) { alert("A팀과 B팀의 이름이 같을 수 없습니다."); return; }
+            if(!WEB_APP_URL || WEB_APP_URL.includes("선생님의_개인계정_주소")) { alert("주소(WEB_APP_URL)를 넣어주세요!"); return; }
+
+            // 전광판 기록 -> 시트 형식 변환
+            let playerDetails = [];
+            Object.keys(players.A).forEach(num => {
+                let card = warnings.A[num] >= 2 ? 'red' : (warnings.A[num] === 1 ? 'yellow' : 'none');
+                if (players.A[num].includes(1)) playerDetails.push({ team: teamA, subTeam: 'A팀', num: num, name: num+"번", isAttended: true, card: card });
+                if (players.A[num].includes(2)) playerDetails.push({ team: teamA, subTeam: 'B팀', num: num, name: num+"번", isAttended: true, card: card });
+                if (players.A[num].includes(3)) playerDetails.push({ team: teamA, subTeam: 'C팀', num: num, name: num+"번", isAttended: true, card: card });
             });
+            Object.keys(players.B).forEach(num => {
+                let card = warnings.B[num] >= 2 ? 'red' : (warnings.B[num] === 1 ? 'yellow' : 'none');
+                if (players.B[num].includes(1)) playerDetails.push({ team: teamB, subTeam: 'A팀', num: num, name: num+"번", isAttended: true, card: card });
+                if (players.B[num].includes(2)) playerDetails.push({ team: teamB, subTeam: 'B팀', num: num, name: num+"번", isAttended: true, card: card });
+                if (players.B[num].includes(3)) playerDetails.push({ team: teamB, subTeam: 'C팀', num: num, name: num+"번", isAttended: true, card: card });
+            });
+
+            const payload = {
+                action: 'saveScore', grade: '3',
+                matchData: { group: group, date: date, sport: '넷볼', teamA: teamA, teamB: teamB, scoreA: scores.A, scoreB: scores.B, teamA_warnings: teamWarnings.A, teamB_warnings: teamWarnings.B, playerDetails: playerDetails }
+            };
+
+            const submitBtn = document.getElementById('btn-submit-data');
+            submitBtn.disabled = true; submitBtn.innerHTML = "📡 전송 중...";
+
+            fetch(WEB_APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) { alert("✅ 경기 결과(점수+출전기록)가 리그 대진표로 완벽하게 전송되었습니다!"); closeFetchModal(); }
+                else alert("❌ 전송 실패: " + data.message);
+            })
+            .catch(error => { alert("❌ 서버 연결 실패! 주소(WEB_APP_URL) 확인 및 개인 계정 배포 여부를 확인하세요."); })
+            .finally(() => { submitBtn.disabled = false; submitBtn.innerHTML = "📡 결과 저장하기"; });
         }
     </script>
 </body>
