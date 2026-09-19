@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Netball Scoreboard Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 부저 소리를 위한 Tone.js 추가 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
@@ -94,14 +93,12 @@
             transform: scale(1.05);
         }
 
-        /* 패널티 깜빡임: 3번만 실행 후 멈춤 */
+        /* 패널티 깜빡임 */
         @keyframes penalty-pulse {
             0%, 100% { box-shadow: 0 0 0px rgba(220, 38, 38, 0); border-color: rgba(239, 68, 68, 1); }
             50% { box-shadow: 0 0 30px rgba(220, 38, 38, 0.9); border-color: #f87171; background-color: rgba(127, 29, 29, 0.5); }
         }
-        .penalty-active {
-            animation: penalty-pulse 1.5s 3; 
-        }
+        .penalty-active { animation: penalty-pulse 1.5s 3; }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -123,6 +120,7 @@
 
         .fullscreen-hint { display: none; }
         
+        /* 전체화면 CSS (비율 최적화) */
         :fullscreen body {
             padding: 0 !important;
             margin: 0 !important;
@@ -142,9 +140,7 @@
             -ms-overflow-style: none; 
             scrollbar-width: none; 
         }
-        :fullscreen #slider-container::-webkit-scrollbar {
-            display: none; 
-        }
+        :fullscreen #slider-container::-webkit-scrollbar { display: none; }
 
         :fullscreen .slide-view {
             min-width: 100vw;
@@ -224,49 +220,28 @@
             padding-bottom: 1.5vh !important;
             font-size: 2vh !important;
         }
-
-        @keyframes pulse-right { 
-            0%, 100% { transform: translateX(0); } 
-            50% { transform: translateX(10px); } 
-        }
-        :fullscreen .fullscreen-hint {
-            display: flex;
-            position: absolute;
-            right: 2vw;
-            top: 50%;
-            margin-top: -24px;
-            opacity: 0.7;
-            animation: pulse-right 1.5s infinite;
-            z-index: 50;
-            background: rgba(0,0,0,0.5);
-            padding: 10px;
-            border-radius: 50%;
-            pointer-events: none;
-        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-2 md:p-6 pb-20 relative">
 
-    <div class="absolute top-4 left-4 z-20 flex gap-2">
-        <!-- 전체화면 토글 버튼 -->
-        <button onclick="toggleFullScreen()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1.5 rounded-lg border border-gray-600 font-bold text-sm shadow-md transition flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707m0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707m-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707"/>
-            </svg>
-            <span>전체화면</span>
-        </button>
-
-        <!-- 리그 대진표 새 탭 버튼 -->
-        <a href="https://script.google.com/a/macros/icedu.kr/s/AKfycbz7SowWvhuSIr3IQLF-rrFHeJTNDHLcqyobKuc9SoYFGif7MI48ST2P4sfacYnlGOl7/exec" target="_blank" class="bg-blue-800 hover:bg-blue-700 text-gray-200 px-3 py-1.5 rounded-lg border border-blue-600 font-bold text-sm shadow-md transition flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 2h-4v3h4zm0 4h-4v3h4zm0 4h-4v3h3a1 1 0 0 0 1-1zm-5 3v-3H6v3zm-5 0v-3H1v2a1 1 0 0 0 1 1zm-4-4h4V8H1zm0-4h4V4H1zm5-3v3h4V4zm4 4H6v3h4z"/>
-            </svg>
-            <span>리그 대진표</span>
-        </a>
+    <!-- 상단 좌측: 전체화면 & 리그 대진표 버튼 -->
+    <div style="position: absolute; top: 20px; left: 20px; z-index: 1000; display: flex; gap: 10px;">
+      <button id="fullscreen-btn" onclick="toggleFullScreen()" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-1.5 rounded-lg border border-gray-600 font-bold text-sm shadow-md transition flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707m0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707m-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707"/>
+        </svg>
+        <span>전체화면</span>
+      </button>
+      <a href="https://script.google.com/a/macros/icedu.kr/s/AKfycbz7SowWvhuSIr3IQLF-rrFHeJTNDHLcqyobKuc9SoYFGif7MI48ST2P4sfacYnlGOl7/exec" target="_blank" class="bg-blue-800 hover:bg-blue-700 text-gray-200 px-3 py-1.5 rounded-lg border border-blue-600 font-bold text-sm shadow-md transition flex items-center gap-2" style="text-decoration: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 2h-4v3h4zm0 4h-4v3h4zm0 4h-4v3h3a1 1 0 0 0 1-1zm-5 3v-3H6v3zm-5 0v-3H1v2a1 1 0 0 0 1 1zm-4-4h4V8H1zm0-4h4V4H1zm5-3v3h4V4zm4 4H6v3h4z"/>
+        </svg>
+        <span>리그 대진표</span>
+      </a>
     </div>
 
     <!-- 스와이프 가능한 슬라이더 컨테이너 -->
-    <div id="slider-container" class="w-full flex flex-col gap-8">
+    <div id="slider-container" class="w-full flex flex-col gap-8 mt-12">
         
         <!-- ================= PAGE 1 : 점수판 뷰 ================= -->
         <div id="view-scoreboard" class="slide-view flex flex-col items-center relative w-full">
@@ -277,13 +252,6 @@
                 <input type="number" id="time-input" value="12" min="1" max="60" class="w-16 bg-gray-900 text-white border border-gray-700 rounded px-2 py-1 text-center font-bold">
                 <span class="text-xs text-gray-400">분</span>
                 <button onclick="setTime()" class="ml-1 bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded font-bold transition">적용</button>
-            </div>
-
-            <!-- 스와이프 힌트 (전체화면 시 표시) -->
-            <div class="fullscreen-hint text-white text-3xl">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                </svg>
             </div>
 
             <!-- 1. 쿼터 & 타이머 영역 -->
@@ -309,7 +277,6 @@
                 <!-- 타이머 영역 및 미세조절 버튼 -->
                 <div id="timer-wrapper" class="relative flex justify-center items-center font-black tracking-[0.2em] text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.9)] leading-none tabular-nums z-10">
                     
-                    <!-- 분 단위 조절 버튼 (좌측) -->
                     <div class="time-adjust-btns absolute -left-14 md:-left-20 top-1/2 -translate-y-1/2 flex flex-col gap-2 transition-opacity duration-300">
                         <button onclick="adjustTime(60)" class="text-gray-400 hover:text-white bg-gray-800/60 hover:bg-gray-700/80 border border-gray-600/50 rounded-xl p-2 shadow-lg backdrop-blur-md transition-all hover:scale-110 active:scale-95">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" /></svg>
@@ -319,14 +286,12 @@
                         </button>
                     </div>
 
-                    <!-- 숫자 표시 영역 -->
                     <div class="flex items-center px-6 md:px-10">
                         <span id="timer-mins" class="text-[9rem] md:text-[14rem]">12</span>
                         <span class="timer-colon text-[9rem] md:text-[14rem] mx-2 md:mx-6 pb-4 md:pb-8">:</span>
                         <span id="timer-secs" class="text-[9rem] md:text-[14rem]">00</span>
                     </div>
 
-                    <!-- 초 단위 조절 버튼 (우측) -->
                     <div class="time-adjust-btns absolute -right-14 md:-right-20 top-1/2 -translate-y-1/2 flex flex-col gap-2 transition-opacity duration-300">
                         <button onclick="adjustTime(1)" class="text-gray-400 hover:text-white bg-gray-800/60 hover:bg-gray-700/80 border border-gray-600/50 rounded-xl p-2 shadow-lg backdrop-blur-md transition-all hover:scale-110 active:scale-95">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-10 md:h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" /></svg>
@@ -388,7 +353,9 @@
                     <button onclick="showCPHistory()" class="w-full border border-yellow-600/50 bg-gray-800 hover:bg-gray-700 text-yellow-500 py-3 rounded-xl font-bold text-sm transition">
                         센터패스 내역
                     </button>
-                    <!-- [추가] 리그 대진표 경기결과 전송 버튼 -->
+                    <button onclick="openFetchModal()" class="w-full border border-green-500 bg-green-900/60 hover:bg-green-800 text-green-200 py-3 rounded-xl font-bold text-sm transition shadow-[0_0_10px_rgba(34,197,94,0.3)] flex items-center justify-center gap-1">
+                        📥 명단 불러오기
+                    </button>
                     <button onclick="openSubmitModal()" class="w-full border border-blue-500 bg-blue-900/60 hover:bg-blue-800 text-blue-200 py-3 rounded-xl font-bold text-sm transition shadow-[0_0_10px_rgba(59,130,246,0.3)] flex items-center justify-center gap-1">
                         📡 결과 전송
                     </button>
@@ -424,8 +391,7 @@
                     </button>
                 </div>
             </div>
-        </div> <!-- End of Page 1 -->
-
+        </div> 
 
         <!-- ================= PAGE 2 : 출전 선수 명단 뷰 ================= -->
         <div id="view-roster" class="slide-view flex flex-col items-center relative w-full">
@@ -438,7 +404,7 @@
                             현재 출전: <span id="count-A" class="text-red-400 text-xl">0</span>명
                         </div>
                     </div>
-                    <div id="roster-A" class="grid grid-cols-5 md:grid-cols-5 gap-y-5 gap-x-2 justify-items-center"></div>
+                    <div id="roster-A" class="grid grid-cols-5 gap-y-5 gap-x-2 justify-items-center"></div>
                 </div>
 
                 <!-- TEAM B 로스터 -->
@@ -449,14 +415,14 @@
                             현재 출전: <span id="count-B" class="text-blue-400 text-xl">0</span>명
                         </div>
                     </div>
-                    <div id="roster-B" class="grid grid-cols-5 md:grid-cols-5 gap-y-5 gap-x-2 justify-items-center"></div>
+                    <div id="roster-B" class="grid grid-cols-5 gap-y-5 gap-x-2 justify-items-center"></div>
                 </div>
             </div>
-        </div> <!-- End of Page 2 -->
+        </div> 
 
-    </div> <!-- End of Slider Container -->
+    </div>
 
-    <!-- 커스텀 Confirm 모달 -->
+    <!-- 모달 영역 -->
     <div id="confirm-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-gray-800 border border-gray-600 rounded-2xl p-6 md:p-8 max-w-sm w-full text-center shadow-2xl transform transition-all">
             <div id="confirm-msg" class="text-xl font-bold text-white mb-8">메시지</div>
@@ -467,7 +433,6 @@
         </div>
     </div>
 
-    <!-- 센터패스 내역 모달 -->
     <div id="cphistory-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-gray-800 border border-gray-600 rounded-2xl flex flex-col max-w-md w-full max-h-[80vh] shadow-2xl">
             <div class="p-4 border-b border-gray-700 flex justify-between items-center">
@@ -485,26 +450,19 @@
         </div>
     </div>
 
-    <!-- 경기결과 전송 모달 -->
+    <!-- 결과 전송 모달 -->
     <div id="submit-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-gray-800 border border-gray-600 rounded-2xl p-6 max-w-md w-full shadow-2xl">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-black text-blue-400">📡 경기 결과 서버 전송</h2>
                 <button onclick="closeSubmitModal()" class="text-gray-400 hover:text-white font-bold text-xl">&times;</button>
             </div>
-            
-            <p class="text-sm text-gray-300 mb-4">입력된 점수와 선수 출전 기록을 리그 대진표(스프레드시트)로 전송합니다.</p>
-            
+            <p class="text-sm text-gray-300 mb-4">입력된 점수와 선수 출전 기록을 리그 대진표로 전송합니다.</p>
             <div class="space-y-3 mb-6">
-                <!-- 고정 데이터 표시 -->
                 <div class="flex gap-2 mb-2">
                     <div class="flex-1 bg-gray-700/50 text-gray-300 rounded p-2 border border-gray-600 text-center text-sm font-bold">3학년</div>
                     <div class="flex-1 bg-gray-700/50 text-gray-300 rounded p-2 border border-gray-600 text-center text-sm font-bold">넷볼</div>
                 </div>
-                <!-- 숨겨진 입력 필드 -->
-                <input type="hidden" id="submit-grade" value="3">
-                <input type="hidden" id="submit-sport" value="넷볼">
-                
                 <div>
                     <label class="block text-xs text-gray-400 mb-2">경기 조 선택</label>
                     <div class="flex gap-3">
@@ -513,52 +471,78 @@
                     </div>
                     <input type="hidden" id="submit-group" value="A">
                 </div>
-
                 <div class="pt-2">
                     <label class="block text-xs text-gray-400 mb-1">경기 일자 (기본: 오늘)</label>
                     <input type="date" id="submit-date" class="w-full bg-gray-700 text-white rounded-xl p-3 border border-gray-600 outline-none">
                 </div>
+                <div class="flex gap-2">
+                    <div class="flex-1">
+                        <label class="block text-xs text-red-400 mb-1">A팀 이름 (예: 1반)</label>
+                        <input type="text" id="submit-teamA" class="w-full bg-gray-700 text-white rounded-xl p-2 border border-gray-600 outline-none text-center font-bold">
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-xs text-blue-400 mb-1">B팀 이름 (예: 2반)</label>
+                        <input type="text" id="submit-teamB" class="w-full bg-gray-700 text-white rounded-xl p-2 border border-gray-600 outline-none text-center font-bold">
+                    </div>
+                </div>
             </div>
-
             <button id="btn-submit-data" onclick="submitMatchResult()" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold transition shadow-lg text-lg flex justify-center items-center gap-2">
                 🚀 서버로 전송하기
             </button>
         </div>
     </div>
 
+    <!-- 명단 불러오기 모달 -->
+    <div id="fetch-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+        <div class="bg-gray-800 border border-gray-600 rounded-2xl p-6 max-w-md w-full shadow-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-black text-green-400">📥 출전 명단 연동</h2>
+                <button onclick="closeFetchModal()" class="text-gray-400 hover:text-white font-bold text-xl">&times;</button>
+            </div>
+            <p class="text-sm text-gray-300 mb-4">리그 대진표에서 체크된 출전 명단을 전광판으로 불러옵니다.</p>
+            <div class="space-y-3 mb-6">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-2">경기 조 선택</label>
+                    <div class="flex gap-3">
+                        <button type="button" id="btn-fetch-group-A" onclick="setFetchGroup('A')" class="flex-1 bg-green-600 text-white rounded-xl p-3 font-black border-2 border-green-400 shadow-lg transition">A조</button>
+                        <button type="button" id="btn-fetch-group-B" onclick="setFetchGroup('B')" class="flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition">B조</button>
+                    </div>
+                    <input type="hidden" id="fetch-group" value="A">
+                </div>
+                <div class="pt-2">
+                    <label class="block text-xs text-gray-400 mb-1">경기 일자 (기본: 오늘)</label>
+                    <input type="date" id="fetch-date" class="w-full bg-gray-700 text-white rounded-xl p-3 border border-gray-600 outline-none">
+                </div>
+                <div class="flex gap-2">
+                    <div class="flex-1">
+                        <label class="block text-xs text-red-400 mb-1">A팀 이름 (예: 1반)</label>
+                        <input type="text" id="fetch-teamA" class="w-full bg-gray-700 text-white rounded-xl p-2 border border-gray-600 outline-none text-center font-bold">
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-xs text-blue-400 mb-1">B팀 이름 (예: 2반)</label>
+                        <input type="text" id="fetch-teamB" class="w-full bg-gray-700 text-white rounded-xl p-2 border border-gray-600 outline-none text-center font-bold">
+                    </div>
+                </div>
+            </div>
+            <button id="btn-fetch-data" onclick="fetchRosterData()" class="w-full bg-green-600 hover:bg-green-500 text-white py-3 rounded-xl font-bold transition shadow-lg text-lg flex justify-center items-center gap-2">
+                🔄 데이터 불러오기
+            </button>
+        </div>
+    </div>
+
     <script>
-        // --- 팀 색상 테마 매핑 객체 ---
         const teamColorThemes = {
-            red: {
-                boxBorder: 'border-red-500', nameText: 'text-red-400',
-                minusBtn: ['bg-red-900/50', 'hover:bg-red-800', 'text-red-200'],
-                plusBtn: ['bg-red-600', 'hover:bg-red-500'],
-                penaltyBadge: 'bg-red-600', rosterCountBg: ['bg-red-900/50', 'border-red-500/30']
-            },
-            blue: {
-                boxBorder: 'border-blue-500', nameText: 'text-blue-400',
-                minusBtn: ['bg-blue-900/50', 'hover:bg-blue-800', 'text-blue-200'],
-                plusBtn: ['bg-blue-600', 'hover:bg-blue-500'],
-                penaltyBadge: 'bg-blue-600', rosterCountBg: ['bg-blue-900/50', 'border-blue-500/30']
-            },
-            yellow: {
-                boxBorder: 'border-yellow-500', nameText: 'text-yellow-400',
-                minusBtn: ['bg-yellow-900/50', 'hover:bg-yellow-800', 'text-yellow-200'],
-                plusBtn: ['bg-yellow-600', 'hover:bg-yellow-500'],
-                penaltyBadge: 'bg-yellow-600', rosterCountBg: ['bg-yellow-900/50', 'border-yellow-500/30']
-            },
-            green: {
-                boxBorder: 'border-green-500', nameText: 'text-green-400',
-                minusBtn: ['bg-green-900/50', 'hover:bg-green-800', 'text-green-200'],
-                plusBtn: ['bg-green-600', 'hover:bg-green-500'],
-                penaltyBadge: 'bg-green-600', rosterCountBg: ['bg-green-900/50', 'border-green-500/30']
-            }
+            red: { boxBorder: 'border-red-500', nameText: 'text-red-400', minusBtn: ['bg-red-900/50', 'hover:bg-red-800', 'text-red-200'], plusBtn: ['bg-red-600', 'hover:bg-red-500'], penaltyBadge: 'bg-red-600', rosterCountBg: ['bg-red-900/50', 'border-red-500/30'] },
+            blue: { boxBorder: 'border-blue-500', nameText: 'text-blue-400', minusBtn: ['bg-blue-900/50', 'hover:bg-blue-800', 'text-blue-200'], plusBtn: ['bg-blue-600', 'hover:bg-blue-500'], penaltyBadge: 'bg-blue-600', rosterCountBg: ['bg-blue-900/50', 'border-blue-500/30'] },
+            yellow: { boxBorder: 'border-yellow-500', nameText: 'text-yellow-400', minusBtn: ['bg-yellow-900/50', 'hover:bg-yellow-800', 'text-yellow-200'], plusBtn: ['bg-yellow-600', 'hover:bg-yellow-500'], penaltyBadge: 'bg-yellow-600', rosterCountBg: ['bg-yellow-900/50', 'border-yellow-500/30'] },
+            green: { boxBorder: 'border-green-500', nameText: 'text-green-400', minusBtn: ['bg-green-900/50', 'hover:bg-green-800', 'text-green-200'], plusBtn: ['bg-green-600', 'hover:bg-green-500'], penaltyBadge: 'bg-green-600', rosterCountBg: ['bg-green-900/50', 'border-green-500/30'] }
         };
 
-        let currentColors = { A: 'red', B: 'blue' };
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwd_Nwgowr8VheEpLX6_ORTAeEbcaI62ueG31YDdTdor8pwoHJT4l8fkG0eNPRUJ0kZ/exec';
 
+        let currentColors = { A: 'red', B: 'blue' };
         let timerInterval;
-        let timeRemaining = 12 * 60; // 기본 12분
+        let timeRemaining = 12 * 60; 
         let isRunning = false;
         
         let scores = { A: 0, B: 0 };
@@ -573,11 +557,11 @@
         let teamWarnings = { A: 0, B: 0 }; 
         let teamNames = { A: 'TEAM A', B: 'TEAM B' };
 
-        // 오늘 날짜 기본 세팅
+        let buzzerSynth = null;
+
         function getTodayDateString() {
             const tzoffset = (new Date()).getTimezoneOffset() * 60000; 
-            const localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
-            return localISOTime;
+            return (new Date(Date.now() - tzoffset)).toISOString().slice(0, 10);
         }
 
         function initPlayersData() {
@@ -592,7 +576,6 @@
         window.onload = function() {
             updateColorPickerUI('A');
             updateColorPickerUI('B');
-            
             renderRoster('A');
             renderRoster('B');
             updateTimerDisplay();
@@ -601,9 +584,19 @@
             updateCenterPassDisplay();
             updateWarningUI('A');
             updateWarningUI('B');
-
-            document.getElementById('submit-date').value = getTodayDateString();
         };
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
 
         function setTeamColor(team, newColor) {
             const oldColor = currentColors[team];
@@ -636,17 +629,11 @@
             rosterTitle.classList.remove(oldTheme.nameText);
             rosterTitle.classList.add(newTheme.nameText);
 
-            const rosterCountSpan = document.getElementById(`count-${team}`);
-            rosterCountSpan.classList.remove(oldTheme.nameText);
-            rosterCountSpan.classList.add(newTheme.nameText);
-
             const rosterCountBg = document.getElementById(`count-bg-${team}`);
             rosterCountBg.classList.remove(...oldTheme.rosterCountBg);
             rosterCountBg.classList.add(...newTheme.rosterCountBg);
 
-            for(let i=1; i<=15; i++) {
-                updatePlayerUI(team, i);
-            }
+            for(let i=1; i<=15; i++) updatePlayerUI(team, i);
             updateColorPickerUI(team);
         }
 
@@ -680,8 +667,7 @@
         }
 
         function resetScores() {
-            scores.A = 0;
-            scores.B = 0;
+            scores.A = 0; scores.B = 0;
             document.getElementById('score-A').innerText = '0';
             document.getElementById('score-B').innerText = '0';
         }
@@ -702,20 +688,15 @@
             const btnA = document.getElementById('cp-A');
             const btnB = document.getElementById('cp-B');
             
-            // 기본 상태 복구
             btnA.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest flex items-center justify-center';
             btnB.className = 'w-full mt-4 bg-gray-800 border-2 border-gray-600 text-gray-400 py-4 rounded-xl font-black text-xl transition uppercase tracking-widest flex items-center justify-center';
             btnA.innerHTML = 'Center Pass';
             btnB.innerHTML = 'Center Pass';
 
-            // 액티브 팀 뱃지 세팅
             const activeBtn = (centerPassTeam === 'A') ? btnA : btnB;
             activeBtn.classList.add('center-pass-active');
             
-            // 만약 현재 게임이 멈춰있고(시작 전) 방금 전 쿼터가 넘어가서 새 쿼터 대기중이라면 알림 표시
             if (!isRunning && timeRemaining === (parseInt(document.getElementById('time-input').value) || 12) * 60 && currentQuarter <= 4) {
-                // 게임이 아직 시작 안한 꽉찬 시간일 때 "N Quarter 시작!" 표시
-                // (단, 처음 로딩시는 제외할 수도 있으나 로직 심플하게 항상 보여주다가 시작누르면 지워지게 함)
                 activeBtn.innerHTML = `CENTER PASS <span class="text-base font-black bg-red-600 text-white px-3 py-1 rounded-lg ml-2 animate-pulse shadow-lg">${currentQuarter} Quarter 시작~!</span>`;
             }
         }
@@ -723,16 +704,12 @@
         function updateTimerDisplay() {
             const minutes = Math.floor(timeRemaining / 60);
             const seconds = timeRemaining % 60;
-            
             document.getElementById('timer-mins').innerText = String(minutes).padStart(2, '0');
             document.getElementById('timer-secs').innerText = String(seconds).padStart(2, '0');
             
             const wrapper = document.getElementById('timer-wrapper');
-            if (timeRemaining <= 0) {
-                wrapper.classList.add('text-red-500', 'animate-pulse');
-            } else {
-                wrapper.classList.remove('text-red-500', 'animate-pulse');
-            }
+            if (timeRemaining <= 0) wrapper.classList.add('text-red-500', 'animate-pulse');
+            else wrapper.classList.remove('text-red-500', 'animate-pulse');
         }
 
         function adjustTime(seconds) {
@@ -742,30 +719,22 @@
             updateTimerDisplay();
         }
 
-        // 전역 스코프에 Synth를 단일 생성하여 재사용 (메모리 누수 방지)
-        let buzzerSynth = null;
-        function initTone() {
-            if (typeof Tone !== 'undefined' && !buzzerSynth) {
-                buzzerSynth = new Tone.Synth({
-                    oscillator: { type: "square" },
-                    envelope: { attack: 0.01, decay: 0.1, sustain: 1, release: 0.5 }
-                }).toDestination();
-                buzzerSynth.volume.value = -8; 
-            }
-        }
-
         async function playBuzzer() {
             try {
                 if (typeof Tone !== 'undefined') {
-                    initTone();
+                    if (!buzzerSynth) {
+                        buzzerSynth = new Tone.Synth({
+                            oscillator: { type: "square" },
+                            envelope: { attack: 0.01, decay: 0.1, sustain: 1, release: 0.5 }
+                        }).toDestination();
+                        buzzerSynth.volume.value = -8; 
+                    }
                     if (Tone.context.state !== 'running') {
                         await Tone.start();
                     }
-                    buzzerSynth.triggerAttackRelease("G2", 3); // 3초간 재생
+                    buzzerSynth.triggerAttackRelease("G2", 3);
                 }
-            } catch (err) {
-                console.error("오디오 재생 오류:", err);
-            }
+            } catch (err) { console.error("오디오 재생 오류:", err); }
         }
 
         function toggleTimer() {
@@ -773,24 +742,17 @@
             const adjustBtns = document.querySelectorAll('.time-adjust-btns'); 
 
             if (isRunning) {
-                // 일시정지 상태
                 clearInterval(timerInterval);
                 btn.innerText = '계속';
                 btn.className = 'w-full bg-yellow-600 hover:bg-yellow-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg';
                 adjustBtns.forEach(el => el.classList.remove('opacity-0', 'pointer-events-none'));
             } else {
-                // 시작 상태
                 if (timeRemaining <= 0) return;
 
-                // 브라우저 오디오 권한 잠금 해제 및 톤 초기화
-                if (typeof Tone !== 'undefined') {
-                    initTone();
-                    if (Tone.context.state !== 'running') {
-                        Tone.start().catch(err => console.error("Tone.start error:", err));
-                    }
+                if (typeof Tone !== 'undefined' && Tone.context.state !== 'running') {
+                    Tone.start().catch(err => console.error(err));
                 }
 
-                // 시작 버튼 누르면 시작 알림 문구 지워짐
                 const activeBtn = (centerPassTeam === 'A') ? document.getElementById('cp-A') : document.getElementById('cp-B');
                 activeBtn.innerHTML = 'Center Pass';
 
@@ -806,10 +768,8 @@
                         btn.innerText = '종료';
                         adjustBtns.forEach(el => el.classList.remove('opacity-0', 'pointer-events-none'));
                         
-                        // 1. 종료 부저 3초 울림
                         playBuzzer();
 
-                        // 2. 1초 뒤 자동 쿼터 변경, 센터패스 교대, 시간 초기화
                         setTimeout(() => {
                             if(timeRemaining <= 0 && !isRunning) {
                                 currentQuarter++;
@@ -817,11 +777,9 @@
                                 document.getElementById('quarter-display').innerText = `${currentQuarter} Quarter`;
                                 
                                 for(let i=1; i<=15; i++) {
-                                    updatePlayerUI('A', i);
-                                    updatePlayerUI('B', i);
+                                    updatePlayerUI('A', i); updatePlayerUI('B', i);
                                 }
-                                updatePlayerCount('A');
-                                updatePlayerCount('B');
+                                updatePlayerCount('A'); updatePlayerCount('B');
 
                                 centerPassTeam = (centerPassTeam === 'A') ? 'B' : 'A';
                                 recordCPHistory(centerPassTeam);
@@ -829,8 +787,7 @@
                                 setTime();
                                 btn.innerText = '시작';
                                 btn.className = 'w-full bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg';
-                                
-                                updateCenterPassDisplay(); // 여기에 시작 배지 부착됨
+                                updateCenterPassDisplay(); 
                             }
                         }, 1000); 
                     }
@@ -850,7 +807,6 @@
             btn.innerText = '시작';
             btn.className = 'w-full bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl font-black text-xl transition shadow-lg';
             document.querySelectorAll('.time-adjust-btns').forEach(el => el.classList.remove('opacity-0', 'pointer-events-none'));
-            
             updateCenterPassDisplay();
         }
 
@@ -874,14 +830,10 @@
 
         function updateQuarterUI() {
             document.getElementById('quarter-display').innerText = `${currentQuarter} Quarter`;
-            
             for(let i=1; i<=15; i++) {
-                updatePlayerUI('A', i);
-                updatePlayerUI('B', i);
+                updatePlayerUI('A', i); updatePlayerUI('B', i);
             }
-            updatePlayerCount('A');
-            updatePlayerCount('B');
-
+            updatePlayerCount('A'); updatePlayerCount('B');
             resetTimer(); 
         }
 
@@ -911,11 +863,8 @@
                     addWarning(team, i);
                 };
 
-                wrapper.appendChild(btn);
-                wrapper.appendChild(badgeContainer);
-                wrapper.appendChild(warningBtn);
+                wrapper.appendChild(btn); wrapper.appendChild(badgeContainer); wrapper.appendChild(warningBtn);
                 container.appendChild(wrapper);
-                
                 updatePlayerUI(team, i);
             }
         }
@@ -929,7 +878,6 @@
 
         function updateWarningUI(team) {
             document.getElementById(`team-warnings-${team}`).innerText = teamWarnings[team];
-            
             const scoreBox = document.getElementById(`score-box-${team}`);
             const penaltyBadge = document.getElementById(`penalty-badge-${team}`);
             
@@ -947,16 +895,9 @@
         function togglePlayer(team, id) {
             const record = players[team][id];
             const index = record.indexOf(currentQuarter);
-            
-            if (index === -1) {
-                record.push(currentQuarter);
-                record.sort(); 
-            } else {
-                record.splice(index, 1);
-            }
-
-            updatePlayerUI(team, id);
-            updatePlayerCount(team);
+            if (index === -1) { record.push(currentQuarter); record.sort(); } 
+            else { record.splice(index, 1); }
+            updatePlayerUI(team, id); updatePlayerCount(team);
         }
 
         function updatePlayerUI(team, id) {
@@ -965,9 +906,7 @@
             const record = players[team][id];
             
             btn.classList.remove('active-red', 'active-blue', 'active-yellow', 'active-green');
-            if (record.includes(currentQuarter)) {
-                btn.classList.add(`active-${currentColors[team]}`);
-            }
+            if (record.includes(currentQuarter)) btn.classList.add(`active-${currentColors[team]}`);
 
             badgeContainer.innerHTML = '';
             record.forEach(q => {
@@ -981,24 +920,18 @@
         function updatePlayerCount(team) {
             let count = 0;
             for (let i = 1; i <= 15; i++) {
-                if (players[team][i].includes(currentQuarter)) {
-                    count++;
-                }
+                if (players[team][i].includes(currentQuarter)) count++;
             }
             document.getElementById(`count-${team}`).innerText = count;
         }
 
         function resetPlayers() {
             initPlayersData();
-            renderRoster('A');
-            renderRoster('B');
-            updatePlayerCount('A');
-            updatePlayerCount('B');
-            updateWarningUI('A');
-            updateWarningUI('B');
+            renderRoster('A'); renderRoster('B');
+            updatePlayerCount('A'); updatePlayerCount('B');
+            updateWarningUI('A'); updateWarningUI('B');
         }
 
-        // 유틸 기능 및 서버 연동
         function showConfirm(msg, callback) {
             document.getElementById('confirm-msg').innerText = msg;
             confirmCallback = callback;
@@ -1016,26 +949,22 @@
         }
 
         function recordCPHistory(team) {
-            const m = Math.floor(timeRemaining / 60);
-            const s = timeRemaining % 60;
-            const timeStr = `${currentQuarter}Q - ${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-            
-            cpHistory.unshift({ time: timeStr, team: team });
-            if(cpHistory.length > 50) cpHistory.pop(); 
+            const m = Math.floor(timeRemaining / 60); const s = timeRemaining % 60;
+            const timeStr = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            cpHistory.unshift(`[${currentQuarter}Q ${timeStr}] ${teamNames[team]} 센터패스`);
         }
 
         function showCPHistory() {
-            const list = document.getElementById('cp-history-list');
-            list.innerHTML = '';
+            const ul = document.getElementById('cp-history-list');
+            ul.innerHTML = '';
             if (cpHistory.length === 0) {
-                list.innerHTML = '<li class="text-gray-500 text-center py-4">기록이 없습니다.</li>';
+                ul.innerHTML = '<li class="text-gray-500 text-center py-4">기록이 없습니다.</li>';
             } else {
-                cpHistory.forEach(item => {
+                cpHistory.forEach(h => {
                     const li = document.createElement('li');
-                    li.className = 'flex justify-between bg-gray-900 p-3 rounded-lg border border-gray-700';
-                    const themeColorClass = teamColorThemes[currentColors[item.team]].nameText;
-                    li.innerHTML = `<span class="text-gray-400 font-mono">${item.time}</span> <span class="font-bold ${themeColorClass} uppercase">${teamNames[item.team]}</span>`;
-                    list.appendChild(li);
+                    li.className = 'bg-gray-700 p-3 rounded-lg border border-gray-600 font-bold';
+                    li.innerText = h;
+                    ul.appendChild(li);
                 });
             }
             document.getElementById('cphistory-modal').classList.remove('hidden');
@@ -1045,124 +974,152 @@
             document.getElementById('cphistory-modal').classList.add('hidden');
         }
 
-        function toggleFullScreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch((err) => {});
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
-            }
-        }
-
-        // 결과 전송 모달 열기
+        // --- 경기 결과 전송 (Submit) 로직 ---
         function openSubmitModal() {
+            document.getElementById('submit-date').value = getTodayDateString();
+            document.getElementById('submit-teamA').value = teamNames.A;
+            document.getElementById('submit-teamB').value = teamNames.B;
             document.getElementById('submit-modal').classList.remove('hidden');
         }
-        
+
         function closeSubmitModal() {
             document.getElementById('submit-modal').classList.add('hidden');
         }
 
         function setSubmitGroup(group) {
             document.getElementById('submit-group').value = group;
-            const btnA = document.getElementById('btn-group-A');
-            const btnB = document.getElementById('btn-group-B');
-            if(group === 'A') {
-                btnA.className = "flex-1 bg-blue-600 text-white rounded-xl p-3 font-black border-2 border-blue-400 shadow-lg transition";
-                btnB.className = "flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition";
-            } else {
-                btnB.className = "flex-1 bg-blue-600 text-white rounded-xl p-3 font-black border-2 border-blue-400 shadow-lg transition";
-                btnA.className = "flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition";
-            }
+            document.getElementById('btn-group-A').className = group === 'A' ? 'flex-1 bg-blue-600 text-white rounded-xl p-3 font-black border-2 border-blue-400 shadow-lg transition' : 'flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition';
+            document.getElementById('btn-group-B').className = group === 'B' ? 'flex-1 bg-blue-600 text-white rounded-xl p-3 font-black border-2 border-blue-400 shadow-lg transition' : 'flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition';
         }
 
-        // 앱스 스크립트로 경기 결과 JSON 전송
         function submitMatchResult() {
-            const btn = document.getElementById('btn-submit-data');
-            btn.innerHTML = '전송 중... ⏳';
-            btn.disabled = true;
-
-            const grade = document.getElementById('submit-grade').value;
             const group = document.getElementById('submit-group').value;
             const date = document.getElementById('submit-date').value;
-            const sport = document.getElementById('submit-sport').value;
+            const teamA = document.getElementById('submit-teamA').value;
+            const teamB = document.getElementById('submit-teamB').value;
 
-            // 출전 선수 추출 (분석)
-            let playerDetails = [];
-            
-            ['A', 'B'].forEach(teamKey => {
-                let teamStr = teamNames[teamKey];
-                
-                for(let i=1; i<=15; i++) {
-                    let hasPlayed = players[teamKey][i].length > 0;
-                    let warnCount = warnings[teamKey][i];
-                    let cardType = 'none';
-                    if (warnCount === 1) cardType = 'yellow';
-                    if (warnCount >= 2) cardType = 'red';
-                    
-                    if (hasPlayed) {
-                        playerDetails.push({
-                            team: teamStr,
-                            subTeam: teamStr,
-                            num: i.toString(),
-                            name: '', // 점수판엔 이름이 없으므로 빈값. 스프레드시트가 번호로 매칭함.
-                            isAttended: true,
-                            card: cardType
-                        });
-                    }
-                }
-            });
-                const payload = {
+            if (teamA === teamB) {
+                alert("A팀과 B팀의 이름이 같을 수 없습니다."); return;
+            }
+
+            const payload = {
                 action: 'saveScore',
-                grade: grade,
+                grade: '3',
                 matchData: {
                     group: group,
                     date: date,
-                    sport: sport,
-                    teamA: teamNames.A,
-                    teamB: teamNames.B,
+                    sport: '넷볼',
+                    teamA: teamA,
+                    teamB: teamB,
                     scoreA: scores.A,
                     scoreB: scores.B,
                     teamA_warnings: teamWarnings.A,
-                    teamB_warnings: teamWarnings.B,
-                    playerDetails: playerDetails
+                    teamB_warnings: teamWarnings.B
                 }
             };
 
-            // ★중요: icedu.kr 도메인이 제외된 공용 API 주소로 변경했습니다.
-            const webAppUrl = 'https://script.google.com/macros/s/AKfycbz7SowWvhuSIr3IQLF-rrFHeJTNDHLcqyobKuc9SoYFGif7MI48ST2P4sfacYnlGOl7/exec';
+            const submitBtn = document.getElementById('btn-submit-data');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = "📡 전송 중...";
 
-            fetch(webAppUrl, {
+            fetch(WEB_APP_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(payload)
             })
-            .then(async response => {
-                if (!response.ok) throw new Error("서버 응답 오류 (권한 문제일 수 있습니다)");
-                const text = await response.text();
-                try {
-                    return JSON.parse(text);
-                } catch (e) {
-                    console.error("응답 텍스트:", text);
-                    throw new Error("서버에서 올바른 데이터를 받지 못했습니다.\n구글 스크립트 권한을 '모든 사용자'로 설정했는지 확인하세요.");
-                }
-            })
+            .then(response => response.json())
             .then(data => {
-                if(data.success) {
-                    alert('성공적으로 리그 대진표에 전송되었습니다! ✅');
+                if (data.success) {
+                    alert("✅ 경기 결과가 리그 대진표로 성공적으로 전송되었습니다!");
                     closeSubmitModal();
                 } else {
-                    alert('전송 실패: ' + data.message);
+                    alert("❌ 전송 실패: " + data.message);
                 }
             })
             .catch(error => {
-                alert('전송 중 오류 발생!\n' + error.message);
-                console.error("Submit Error:", error);
+                console.error('Error:', error);
+                alert("❌ 서버 연결 실패. (앱스 스크립트 '모든 사용자' 권한을 확인해주세요.)");
             })
             .finally(() => {
-                btn.innerHTML = '🚀 서버로 전송하기';
-                btn.disabled = false;
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = "🚀 서버로 전송하기";
+            });
+        }
+
+        // --- 출전 명단 불러오기 (Fetch) 로직 ---
+        function openFetchModal() {
+            document.getElementById('fetch-date').value = getTodayDateString();
+            document.getElementById('fetch-teamA').value = teamNames.A;
+            document.getElementById('fetch-teamB').value = teamNames.B;
+            document.getElementById('fetch-modal').classList.remove('hidden');
+        }
+
+        function closeFetchModal() {
+            document.getElementById('fetch-modal').classList.add('hidden');
+        }
+
+        function setFetchGroup(group) {
+            document.getElementById('fetch-group').value = group;
+            document.getElementById('btn-fetch-group-A').className = group === 'A' ? 'flex-1 bg-green-600 text-white rounded-xl p-3 font-black border-2 border-green-400 shadow-lg transition' : 'flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition';
+            document.getElementById('btn-fetch-group-B').className = group === 'B' ? 'flex-1 bg-green-600 text-white rounded-xl p-3 font-black border-2 border-green-400 shadow-lg transition' : 'flex-1 bg-gray-700 text-gray-400 rounded-xl p-3 font-black border-2 border-transparent hover:bg-gray-600 transition';
+        }
+
+        function fetchRosterData() {
+            const group = document.getElementById('fetch-group').value;
+            const date = document.getElementById('fetch-date').value;
+            const teamA = document.getElementById('fetch-teamA').value;
+            const teamB = document.getElementById('fetch-teamB').value;
+
+            const payload = {
+                action: 'fetchRoster',
+                grade: '3',
+                group: group,
+                date: date,
+                teamA: teamA,
+                teamB: teamB
+            };
+
+            const fetchBtn = document.getElementById('btn-fetch-data');
+            fetchBtn.disabled = true;
+            fetchBtn.innerHTML = "🔄 데이터를 가져오는 중...";
+
+            fetch(WEB_APP_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    initPlayersData();
+                    if(data.teamA) {
+                        Object.keys(data.teamA).forEach(num => {
+                            let n = parseInt(num);
+                            if (n >= 1 && n <= 15) players.A[n] = [1, 2, 3, 4]; 
+                        });
+                    }
+                    if(data.teamB) {
+                        Object.keys(data.teamB).forEach(num => {
+                            let n = parseInt(num);
+                            if (n >= 1 && n <= 15) players.B[n] = [1, 2, 3, 4];
+                        });
+                    }
+                    renderRoster('A'); renderRoster('B');
+                    updatePlayerCount('A'); updatePlayerCount('B');
+
+                    alert("✅ 출전 명단을 성공적으로 불러왔습니다!");
+                    closeFetchModal();
+                } else {
+                    alert("❌ 명단 불러오기 실패: " + data.message + "\n(리그대진표에 해당 경기 출전명단이 저장되어 있는지 확인하세요)");
+                }
+            })
+            .catch(error => {
+                console.error('Fetch Error:', error);
+                alert("서버 연결에 실패했습니다. (앱스 스크립트 권한 문제 또는 오프라인 상태입니다.)");
+            })
+            .finally(() => {
+                fetchBtn.disabled = false;
+                fetchBtn.innerHTML = "🔄 데이터 불러오기";
             });
         }
     </script>
