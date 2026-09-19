@@ -1090,7 +1090,7 @@
                 if (data.success) {
                     initPlayersData();
                     
-                    // A팀 명단을 쿼터별로 정확히 분배 (A팀->1Q, B팀->2Q, C팀->3Q,4Q)
+                    // A팀 명단을 쿼터별로 정확히 분배 (A팀->1Q, B팀->2Q, C팀->3Q)
                     if(data.teamA) {
                         Object.keys(data.teamA).forEach(num => {
                             let n = parseInt(num);
@@ -1098,7 +1098,7 @@
                                 let q = [];
                                 if (data.teamA[num].includes('A팀')) q.push(1);
                                 if (data.teamA[num].includes('B팀')) q.push(2);
-                                if (data.teamA[num].includes('C팀')) { q.push(3); q.push(4); }
+                                if (data.teamA[num].includes('C팀')) q.push(3);
                                 players.A[n] = q;
                             }
                         });
@@ -1112,7 +1112,7 @@
                                 let q = [];
                                 if (data.teamB[num].includes('A팀')) q.push(1);
                                 if (data.teamB[num].includes('B팀')) q.push(2);
-                                if (data.teamB[num].includes('C팀')) { q.push(3); q.push(4); }
+                                if (data.teamB[num].includes('C팀')) q.push(3);
                                 players.B[n] = q;
                             }
                         });
