@@ -228,7 +228,6 @@
       <button id="fullscreen-btn" class="btn" onclick="toggleFullScreen()" style="background-color: transparent; border: 1px solid rgba(255,255,255,0.5); color: white; padding: 5px 10px; font-size: 0.9rem; cursor: pointer; border-radius: 5px;">
         <i class="fas fa-expand"></i> 전체화면
       </button>
-      <!-- 리그 대진표 링크 (아래 링크는 원하시는 곳으로 변경 가능합니다) -->
       <a href="https://script.google.com/a/macros/icedu.kr/s/AKfycbz7SowWvhuSIr3IQLF-rrFHeJTNDHLcqyobKuc9SoYFGif7MI48ST2P4sfacYnlGOl7/exec" target="_blank" class="btn" style="background-color: #495057; border: 1px solid rgba(255,255,255,0.5); color: white; padding: 5px 10px; font-size: 0.9rem; cursor: pointer; border-radius: 5px; text-decoration: none; display: flex; align-items: center; justify-content: center;">
         <i class="fas fa-table" style="margin-right: 5px;"></i> 리그 대진표
       </a>
@@ -994,7 +993,7 @@
                 alert("A팀과 B팀의 이름이 같을 수 없습니다."); return;
             }
 
-            // ★ 결과 전송용 개인 계정 웹앱 주소 입력 ★
+            // ★ 결과 전송용 앱스 스크립트 웹앱 주소 ★
             const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzOGs6JbYvq-vUPlUiRVIOJVojzrkek95iClEWyV8hFHNsHAc-LLMLnbdd7xVoKAjrv/exec';
 
             const payload = {
@@ -1017,7 +1016,6 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = "📡 전송 중...";
 
-            // CORS 차단 방지를 위해 text/plain 사용
             fetch(WEB_APP_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1066,7 +1064,7 @@
             const teamA = document.getElementById('fetch-teamA').value;
             const teamB = document.getElementById('fetch-teamB').value;
 
-            // ★ 명단 불러오기용 개인 계정 웹앱 주소 입력 ★
+            // ★ 방금 성공하신 선생님의 최신 구글 앱스 스크립트 '웹 앱 URL'을 꼭 이곳에 넣어주세요! ★
             const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzOGs6JbYvq-vUPlUiRVIOJVojzrkek95iClEWyV8hFHNsHAc-LLMLnbdd7xVoKAjrv/exec'; 
 
             const payload = {
@@ -1082,7 +1080,6 @@
             fetchBtn.disabled = true;
             fetchBtn.innerHTML = "🔄 데이터를 가져오는 중...";
 
-            // 데이터를 주고받기 위한 통신
             fetch(WEB_APP_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1092,22 +1089,39 @@
             .then(data => {
                 if (data.success) {
                     initPlayersData();
+                    
+                    // A팀 명단을 쿼터별로 정확히 분배 (A팀->1Q, B팀->2Q, C팀->3Q,4Q)
                     if(data.teamA) {
                         Object.keys(data.teamA).forEach(num => {
                             let n = parseInt(num);
-                            if (n >= 1 && n <= 15) players.A[n] = [1, 2, 3, 4]; 
+                            if (n >= 1 && n <= 15) {
+                                let q = [];
+                                if (data.teamA[num].includes('A팀')) q.push(1);
+                                if (data.teamA[num].includes('B팀')) q.push(2);
+                                if (data.teamA[num].includes('C팀')) { q.push(3); q.push(4); }
+                                players.A[n] = q;
+                            }
                         });
                     }
+                    
+                    // B팀 명단도 쿼터별로 정확히 분배
                     if(data.teamB) {
                         Object.keys(data.teamB).forEach(num => {
                             let n = parseInt(num);
-                            if (n >= 1 && n <= 15) players.B[n] = [1, 2, 3, 4];
+                            if (n >= 1 && n <= 15) {
+                                let q = [];
+                                if (data.teamB[num].includes('A팀')) q.push(1);
+                                if (data.teamB[num].includes('B팀')) q.push(2);
+                                if (data.teamB[num].includes('C팀')) { q.push(3); q.push(4); }
+                                players.B[n] = q;
+                            }
                         });
                     }
+
                     renderRoster('A'); renderRoster('B');
                     updatePlayerCount('A'); updatePlayerCount('B');
 
-                    alert("✅ 출전 명단을 성공적으로 불러왔습니다!");
+                    alert("✅ 출전 명단을 쿼터별로 정확하게 매핑하여 불러왔습니다!");
                     closeFetchModal();
                 } else {
                     alert("❌ 명단 불러오기 실패: " + data.message + "\n(리그대진표에 해당 경기 출전명단이 저장되어 있는지 확인하세요)");
@@ -1115,7 +1129,7 @@
             })
             .catch(error => {
                 console.error('Fetch Error:', error);
-                alert("서버 연결에 실패했습니다. (앱스 스크립트 권한 문제 또는 오프라인 상태입니다.)");
+                alert("서버 연결에 실패했습니다. (CORS 권한 문제 또는 오프라인 상태입니다.)");
             })
             .finally(() => {
                 fetchBtn.disabled = false;
