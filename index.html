@@ -163,35 +163,35 @@
             margin-bottom: 0.5vh !important; /* 간격 최소화 */
         }
         
-        /* 1. 쿼터 텍스트 50% 이상 확대 */
-        :fullscreen #quarter-display { font-size: 15vh !important; line-height: 1; } 
+        /* 1. 쿼터 텍스트 약간 축소 (기존 15vh -> 11vh) */
+        :fullscreen #quarter-display { font-size: 11vh !important; line-height: 1; } 
         
         /* 공간 확보를 위해 제작자 텍스트 숨김 */
         :fullscreen #maker-text { display: none !important; }
         
         :fullscreen .top-section > div:first-child > button {
-            width: 8vh !important; 
-            height: 8vh !important;
-            font-size: 5vh !important;
+            width: 6vh !important; 
+            height: 6vh !important;
+            font-size: 3.5vh !important;
         }
         
-        /* 2. 타이머 텍스트 50% 확대 */
+        /* 2. 타이머 텍스트 약간 축소 (기존 30vh -> 23vh) */
         :fullscreen #timer-mins,
         :fullscreen #timer-secs,
         :fullscreen .timer-colon {
-            font-size: 30vh !important; 
+            font-size: 23vh !important; 
             line-height: 0.75 !important; /* 줄간격 대폭 줄여서 높이 차지 방지 */
         }
         
         :fullscreen .time-adjust-btns button { padding: 0.5vh !important; }
-        :fullscreen .time-adjust-btns svg { width: 4vh !important; height: 4vh !important; }
+        :fullscreen .time-adjust-btns svg { width: 3vh !important; height: 3vh !important; }
 
         :fullscreen #view-scoreboard .score-section {
             flex-grow: 1;
             align-items: stretch;
             margin-bottom: 0;
             height: auto; 
-            max-height: 60vh; /* 점수판 높이 제한으로 하단 버튼 공간 확보 */
+            max-height: 65vh; /* 점수판 높이 제한 완화 */
         }
         
         :fullscreen .score-box {
@@ -199,30 +199,30 @@
             justify-content: space-evenly; 
         }
         
-        /* 3. 팀명 텍스트 대폭 확대 */
+        /* 3. 팀명 텍스트 축소 (기존 10vh -> 7.5vh) */
         :fullscreen .team-name-input {
-            font-size: 10vh !important; 
+            font-size: 7.5vh !important; 
             margin-bottom: 0 !important;
         }
         
-        /* 4. 누적 경고 텍스트 확대 */
+        /* 4. 누적 경고 텍스트 축소 */
         :fullscreen .warning-badge-container {
-            font-size: 3.5vh !important;
+            font-size: 2.5vh !important;
             padding: 0.5vh 2vw !important;
             margin-bottom: 0 !important;
         }
         :fullscreen .warning-badge-container span[id^="team-warnings"] {
-            font-size: 5vh !important;
+            font-size: 4vh !important;
         }
         :fullscreen .warning-badge-container button {
-            width: 4vh !important;
-            height: 4vh !important;
-            font-size: 3vh !important;
+            width: 3.5vh !important;
+            height: 3.5vh !important;
+            font-size: 2.5vh !important;
         }
 
-        /* 5. 스코어 텍스트 50% 이상 확대 */
+        /* 5. 스코어 텍스트 축소 (기존 28vh -> 21vh) */
         :fullscreen [id^="score-A"], :fullscreen [id^="score-B"] {
-            font-size: 28vh !important; 
+            font-size: 21vh !important; 
             margin-bottom: 0 !important;
             line-height: 0.85 !important;
         }
@@ -236,15 +236,15 @@
         :fullscreen .score-box .score-btn-group button {
             padding-top: 1vh !important;
             padding-bottom: 1vh !important;
-            font-size: 5vh !important;
+            font-size: 4vh !important;
         }
         
-        /* 6. 센터패스 버튼 잘림 방지 (여백 최소화) */
+        /* 6. 센터패스 버튼 잘림 방지 (크기 및 여백 축소) */
         :fullscreen [id^="cp-A"], :fullscreen [id^="cp-B"] {
             margin-top: 0 !important;
-            padding-top: 1.5vh !important; 
-            padding-bottom: 1.5vh !important;
-            font-size: 4vh !important;
+            padding-top: 1vh !important; 
+            padding-bottom: 1vh !important;
+            font-size: 3vh !important;
         }
 
         :fullscreen .controls-panel { 
@@ -256,7 +256,7 @@
         :fullscreen .controls-panel button {
             padding-top: 0 !important;
             padding-bottom: 0 !important;
-            font-size: 1.8vh !important;
+            font-size: 1.6vh !important;
             height: 100%; 
         }
     </style>
